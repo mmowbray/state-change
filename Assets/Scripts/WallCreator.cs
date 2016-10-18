@@ -22,9 +22,10 @@ public class WallCreator : MonoBehaviour {
 		GameObject blockCopy = Instantiate(m_Block);
 		blockCopy.transform.position = other.contacts[0].point;
 
-		blockCopy.GetComponent<Rigidbody>().AddForce(transform.up * m_BlockSpeed);
+		// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
+		blockCopy.transform.forward = transform.forward;
+
 		// destroying the bullet
 		Destroy(other.gameObject);
-		Destroy (blockCopy, 5f);
 	}
 }
