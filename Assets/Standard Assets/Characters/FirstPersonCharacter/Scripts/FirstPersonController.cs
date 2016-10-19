@@ -27,9 +27,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
-		[SerializeField] private GameObject m_BulletPrefab;
-		[SerializeField] private Transform m_BulletSpawnLocation;
-		[SerializeField] private float m_BulletSpeed;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -85,11 +82,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
 
-			if (Input.GetKeyDown (KeyCode.Mouse0)) {
-				GameObject bulletCopy = Instantiate (m_BulletPrefab) as GameObject;
-				bulletCopy.transform.position = m_BulletSpawnLocation.position;
-				bulletCopy.GetComponent<Rigidbody> ().velocity = m_BulletSpawnLocation.forward * m_BulletSpeed;
-			}
         }
 
 

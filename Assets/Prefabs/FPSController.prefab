@@ -56,6 +56,7 @@ GameObject:
   - 114: {fileID: 114000014012978148}
   - 54: {fileID: 54000013475921362}
   - 82: {fileID: 82000012239192552}
+  - 114: {fileID: 114000013004223046}
   m_Layer: 0
   m_Name: FPSController
   m_TagString: Untagged
@@ -314,6 +315,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114000013004223046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012380863886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3788e984a1bc44b4cb6bb20ba98f8911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BulletPrefab: {fileID: 1000011244306258, guid: 22a376f20682d4693aee0decf07388a2,
+    type: 2}
+  m_BulletSpawnLocation: {fileID: 4000010974579984}
+  m_BulletSpeed: 25
 --- !u!114 &114000014012978148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -409,10 +425,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
-  m_BulletPrefab: {fileID: 1000011244306258, guid: 22a376f20682d4693aee0decf07388a2,
-    type: 2}
-  m_BulletSpawnLocation: {fileID: 4000010974579984}
-  m_BulletSpeed: 25
 --- !u!124 &124000013321272492
 Behaviour:
   m_ObjectHideFlags: 1
