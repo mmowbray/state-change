@@ -23,7 +23,7 @@ public class WallCreator : MonoBehaviour {
 		blockCopy.transform.position = other.contacts[0].point;
 
 		// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
-		blockCopy.transform.forward = transform.forward;
+		blockCopy.transform.localRotation = transform.localRotation;
 
 		// destroying the bullet
 		Destroy(other.gameObject);
