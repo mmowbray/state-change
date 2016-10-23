@@ -10,7 +10,13 @@ public class Block : MonoBehaviour {
 
 	void OnMouseDrag(){
 		Vector3 stretchY = new Vector3(0,1,0) * 0.5f;
-
 		transform.parent.localScale += stretchY;
+	}
+
+	void OnCollisionEnter(Collision col){
+		if (col.gameObject.tag == "Bullet") {
+			Destroy (col.gameObject);
+			Destroy (gameObject);
+		}
 	}
 }
