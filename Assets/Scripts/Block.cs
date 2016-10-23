@@ -5,12 +5,10 @@ public class Block : MonoBehaviour {
 	[SerializeField] private float m_ScaleSpeed;
 
 	void Start(){
-		int x = 0;
 	}
 
-	void OnMouseDrag(){
-		Vector3 stretchY = new Vector3(0,1,0) * 0.5f;
-		transform.parent.localScale += stretchY;
+	public void StretchBy(float amount){
+		transform.parent.localScale += new Vector3 (0, amount * m_ScaleSpeed, 0);
 	}
 
 	void OnCollisionEnter(Collision col){

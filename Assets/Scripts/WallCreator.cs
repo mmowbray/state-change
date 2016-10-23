@@ -16,16 +16,20 @@ public class WallCreator : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision other) {
-		print("Points colliding: " + other.contacts.Length);
-		print("First point that collided: " + other.contacts[0].point);
+		if (other.gameObject.GetComponent<Bullet>() != null) {
+			
+			print ("Points colliding: " + other.contacts.Length);
+			print ("First point that collided: " + other.contacts [0].point);
 
-		GameObject blockCopy = Instantiate(m_Block);
-		blockCopy.transform.position = other.contacts[0].point;
+			GameObject blockCopy = Instantiate (m_Block);
+			blockCopy.GetComponentInChildren<Block>().StretchBy (other.gameObject.GetComponent<Bullet> ().getChargeTime ());
+			blockCopy.transform.position = other.contacts [0].point;
 
-		// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
-		blockCopy.transform.localRotation = transform.localRotation;
+			// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
+			blockCopy.transform.localRotation = transform.localRotation;
 
-		// destroying the bullet
-		Destroy(other.gameObject);
+			// destroying the bullet
+			Destroy (other.gameObject);
+		}
 	}
 }
