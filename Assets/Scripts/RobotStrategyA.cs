@@ -19,7 +19,22 @@ namespace RobotStuff
 
 		public override void Update()
 		{
-			FollowTarget();
+			RaycastHit hit;
+
+			Ray ray = new Ray(_myGameObject.transform.position, _myGameObject.transform.forward);
+
+			if (Physics.Raycast(ray, out hit, _maxRayDistance))
+			{
+				if(hit.collider.CompareTag("Player"))
+				{
+					_follow = true;
+				}
+			}
+
+			if(_follow && !_touching)
+			{
+				FollowTarget();
+			}
 		}
 
 		public void FollowTarget()
@@ -39,6 +54,10 @@ namespace RobotStuff
 					{
 						_myGameObject.transform.position = _target.transform.position;
 					}
+				}
+				else
+				{ 
+					_follow = false; // Out of Range. 
 				}
 			}
 		}

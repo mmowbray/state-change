@@ -19,6 +19,18 @@ namespace RobotStuff
 
 		public override void Update()
 		{
+			RaycastHit hit;
+			Ray ray = new Ray(_myGameObject.transform.position, _target.transform.position - _myGameObject.transform.position);
+
+			if (Physics.Raycast(ray, out hit, _maxRayDistance))
+			{
+				FollowTarget();
+			}
+			else
+			{
+				_myGameObject.transform.Translate((1f * Time.deltaTime), 0f, 0f);
+			}
+
 			FollowTarget();
 		}
 

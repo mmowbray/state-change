@@ -38,4 +38,19 @@ public class Robot : MonoBehaviour
 				break;	
 		}
 	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		_robotStrategy.OnTriggerEnter(col);
+	}
+
+	void OnTriggerStay(Collider col)
+	{
+		_robotStrategy.OnTriggerStay(col);
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		_robotStrategy.OnTriggerExit(col);
+	}
 }
