@@ -14,9 +14,15 @@ TagManager:
   - UI
   - 
   - 
+<<<<<<< HEAD
   - Bullet
   - Changeable
   - 
+=======
+  - Player
+  - Enemy
+  - Obstical
+>>>>>>> master
   - 
   - 
   - 

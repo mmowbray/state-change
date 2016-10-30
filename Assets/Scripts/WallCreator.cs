@@ -20,6 +20,7 @@ public class WallCreator : MonoBehaviour {
 		print("First point that collided: " + other.contacts[0].point);
 
 		GameObject blockCopy = Instantiate(m_Block);
+		blockCopy.GetComponent<Block>().wallPoint = other.contacts[0].point;
 		blockCopy.transform.position = other.contacts[0].point;
 
 		// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
