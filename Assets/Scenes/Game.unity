@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.57508564, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - 64: {fileID: 801220036}
   - 23: {fileID: 801220035}
   - 114: {fileID: 801220038}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - 64: {fileID: 1138239400}
   - 23: {fileID: 1138239399}
   - 114: {fileID: 1138239402}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Plane (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   - 64: {fileID: 1185425672}
   - 23: {fileID: 1185425671}
   - 114: {fileID: 1185425674}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Plane (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +618,7 @@ GameObject:
   - 64: {fileID: 1680032468}
   - 23: {fileID: 1680032467}
   - 114: {fileID: 1680032470}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Plane (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -819,7 +819,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000011256404688, guid: ffd6c2976a4944651812914e1cbf3508, type: 2}
       propertyPath: m_Layer
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffd6c2976a4944651812914e1cbf3508, type: 2}
