@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Block : MonoBehaviour {
 	[SerializeField] private float m_ScaleSpeed;
+	public Vector3 wallPoint;
 
 	void Start(){
 	}

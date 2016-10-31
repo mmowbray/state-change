@@ -23,7 +23,9 @@ public class WallCreator : MonoBehaviour {
 
 			GameObject blockCopy = Instantiate (m_Block);
 			blockCopy.GetComponentInChildren<Block>().StretchBy (other.gameObject.GetComponent<Bullet> ().getChargeTime ());
+			blockCopy.GetComponent<Block>().wallPoint = other.contacts[0].point;
 			blockCopy.transform.position = other.contacts [0].point;
+
 
 			// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
 			blockCopy.transform.localRotation = transform.localRotation;
