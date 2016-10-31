@@ -23,7 +23,7 @@ public class WallCreator : MonoBehaviour {
 
 			GameObject blockCopy = Instantiate (m_Block);
 			blockCopy.GetComponentInChildren<Block>().StretchBy (other.gameObject.GetComponent<Bullet> ().getChargeTime ());
-			blockCopy.GetComponent<Block>().wallPoint = other.contacts[0].point;
+			blockCopy.GetComponentInChildren<Block>().wallPoint = other.contacts[0].point;
 			blockCopy.transform.position = other.contacts [0].point;
 
 
