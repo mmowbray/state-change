@@ -21,9 +21,15 @@ public class WallCreator : MonoBehaviour {
 			print ("Points colliding: " + other.contacts.Length);
 			print ("First point that collided: " + other.contacts [0].point);
 
+<<<<<<< HEAD
 			GameObject blockCopy = Instantiate (m_Block);
 			blockCopy.GetComponentInChildren<Block>().StretchBy (other.gameObject.GetComponent<Bullet> ().getChargeTime ());
 			blockCopy.transform.position = other.contacts [0].point;
+=======
+		GameObject blockCopy = Instantiate(m_Block);
+		blockCopy.GetComponent<Block>().wallPoint = other.contacts[0].point;
+		blockCopy.transform.position = other.contacts[0].point;
+>>>>>>> master
 
 			// make the block forward direction the same as the wall's. This to help the block stretch in the right direction
 			blockCopy.transform.localRotation = transform.localRotation;
