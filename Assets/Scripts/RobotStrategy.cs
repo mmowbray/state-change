@@ -41,7 +41,7 @@ namespace RobotStuff
 		{
 			Debug.Log("Stay");
 			_touching = true;
-//			GoAround();
+			GoAround();
 		}
 
 		public virtual void OnTriggerExit(Collider col)

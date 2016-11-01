@@ -7,19 +7,41 @@ namespace RobotStuff
 	{
 		public RobotStrategyC(GameObject gameObject, Transform target) : base(gameObject, target)
 		{
-			Debug.Log("New RobotC");
+			Debug.Log("New RobotA");
 		}
 
 		public override void Start()
 		{
-			_followRange = 500.0f;
+			_followRange = 100.0f;
 			_arriveThreshold = 0.05f;
 			_followSpeed = 2.0f;
+
+			_follow = true;
 		}
 
 		public override void Update()
 		{
-			FollowTarget();
+//			RaycastHit hit;
+//
+//			Ray ray = new Ray(_myGameObject.transform.position, _myGameObject.transform.forward);
+//
+//			if (Physics.Raycast(ray, out hit, _maxRayDistance))
+//			{
+//				if(hit.collider.CompareTag("Player"))
+//				{
+//					_follow = true;
+//				}
+//			}
+
+//			if(_follow && !_touching)
+//			{
+//				FollowTarget();
+//			}
+
+			if(!_touching)
+			{
+				FollowTarget();
+			}
 		}
 
 		public void FollowTarget()
@@ -33,12 +55,20 @@ namespace RobotStuff
 
 					if(direction.magnitude > _arriveThreshold)
 					{
-						_myGameObject.transform.Translate(direction.normalized * _followSpeed * Time.deltaTime, Space.World);
+						Vector3 dir = direction.normalized;
+						dir.y = 0;
+						_myGameObject.transform.Translate(dir * _followSpeed * Time.deltaTime, Space.World);
 					}
 					else
 					{
-						_myGameObject.transform.position = _target.transform.position;
+						Vector3 tarPos = _target.transform.position;
+						tarPos.y = 0;
+						_myGameObject.transform.position = tarPos;
 					}
+				}
+				else
+				{ 
+					_follow = false; // Out of Range. 
 				}
 			}
 		}
