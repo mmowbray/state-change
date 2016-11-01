@@ -50,6 +50,38 @@ namespace RobotStuff
 			_touching = false;
 		}
 
+		public virtual void OnCollisionEnter(Collision col)
+		{
+			Debug.Log(col.collider.GetComponentInChildren<GameObject>().tag);
+
+			if(col.collider.GetComponentInChildren<GameObject>().tag == "Block")
+			{
+				Debug.Log("Enter");
+				_touching = true;
+			}
+		}
+
+		public virtual void OnCollisionStay(Collision col)
+		{
+			Debug.Log(col.collider.GetComponentInChildren<GameObject>().tag);
+
+			if(col.collider.GetComponentInChildren<GameObject>().tag == "Block")
+			{
+				Debug.Log("Stay");
+				_touching = true;
+				GoAround();
+			}
+		}
+
+		public virtual void OnCollisionExit(Collision col)
+		{
+			if(col.gameObject.tag == "Block")
+			{
+				Debug.Log("Enter");
+				_touching = true;
+			}
+		}
+
 		public virtual void GoAround()
 		{
 			RaycastHit hit;

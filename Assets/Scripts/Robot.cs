@@ -57,4 +57,24 @@ public class Robot : MonoBehaviour
 	{
 		_robotStrategy.OnTriggerExit(col);
 	}
+
+//	void OnCollisionEnter(Collision col)
+//	{
+//		Debug.Log("ehoruiueyg;fvq");
+//		_robotStrategy.OnCollisionEnter(col);
+//	}
+//
+//	void OnCollisionStay(Collision col)
+//	{
+//		Debug.Log("ehoruiueyg;fvq");
+//
+//		_robotStrategy.OnCollisionStay(col);
+//	}
+//
+//	void OnCollisionExit(Collision col)
+//	{
+//		Debug.Log("ehoruiueyg;fvq");
+//
+//		_robotStrategy.OnCollisionExit(col);
+//	}
 }

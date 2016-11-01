@@ -13,6 +13,7 @@ public class Block : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
+		Debug.Log("Bullet");
 		if (col.gameObject.tag == "Bullet") {
 			Destroy (col.gameObject);
 			Destroy (gameObject);
