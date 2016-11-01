@@ -8,7 +8,7 @@ public class Robot : MonoBehaviour
 	public Transform target;
 	public float followRange = 3.0f;
 	public float arriveThreshold = 0.05f;
-    public bool attacking;
+    public bool isAttacking;
 
 	private RobotStrategy _robotStrategy;
 
@@ -16,21 +16,32 @@ public class Robot : MonoBehaviour
     private bool defeated = false;
     private float disappearTimer = 0;
 
+    private Animator mAnimator;
+
 	// Use this for initialization
 	void Start() 
 	{
 		this.SetRobotStrategy(robotStrategyName);
-	}
+        mAnimator = GetComponent<Animator>();
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (!defeated)
-        _robotStrategy.Update();
+        {
+            _robotStrategy.Update();
+            if (isAttacking)
+                mAnimator.SetBool("isAttacking", true);
+            else mAnimator.SetBool("isAttacking", false);
+        }
         if (defeatTrigger && !defeated)
         {
+            mAnimator.SetBool("isAttacking", false);
+            mAnimator.Stop();
             defeated = true;
             fallApart();
+
         }
         else if (defeated)
             disappearTimer += Time.deltaTime;
