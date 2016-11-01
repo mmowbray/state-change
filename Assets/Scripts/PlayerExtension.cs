@@ -37,4 +37,9 @@ public class PlayerExtension : MonoBehaviour {
 			m_chargeEffets.Stop();
 		}
 	}
+
+    public float getCharge()
+    {
+        return m_BulletChargeTime;
+    }
 }
