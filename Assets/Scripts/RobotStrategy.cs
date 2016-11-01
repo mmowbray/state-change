@@ -7,37 +7,46 @@ namespace RobotStuff
 	{
 		protected GameObject _myGameObject;
 		protected Transform _target;
-		protected float _followRange = 7.0f;
-		protected float _arriveThreshold = 0.05f;
-		protected float _followSpeed = 1.0f;
 		protected float _angularSpeed = 180.0f;
 		protected float _maxRayDistance = 500.0f;
 		protected bool _follow = false;
 		protected bool _touching = false;
 
-		public RobotStrategy(GameObject gameObject, Transform target)
+		protected float _followRange;
+		protected float _arriveThreshold;
+		protected float _followSpeed;
+
+		public RobotStrategy (GameObject gameObject, Transform target)
 		{
 			_myGameObject = gameObject;
 			_target = target;
 		}
 
-		public abstract void Start();
+		public virtual void Start()
+		{
+			_followRange = 10.0f;
+			_arriveThreshold = 0.05f;
+			_followSpeed = 1.0f;
+		}
 
 		public abstract void Update();
 
 		public virtual void OnTriggerEnter(Collider col)
 		{
+			Debug.Log("Enter");
 			_touching = true;
 		}
 
 		public virtual void OnTriggerStay(Collider col)
 		{
+			Debug.Log("Stay");
 			_touching = true;
 			GoAround();
 		}
 
 		public virtual void OnTriggerExit(Collider col)
 		{
+			Debug.Log("Exit");
 			_touching = false;
 		}
 
