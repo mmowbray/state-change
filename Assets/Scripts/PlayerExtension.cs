@@ -25,6 +25,9 @@ public class PlayerExtension : MonoBehaviour {
 			if (!m_chargeEffets.isPlaying) {
 				m_chargeEffets.Play ();
 			}
+
+			if(Input.GetKey(KeyCode.Mouse1))
+				m_BulletChargeTime = 0; //reset the charge-up on right-click
 		}
 
 		if (Input.GetKeyUp(KeyCode.Mouse0)) { 	// at release charge, launch bullet
