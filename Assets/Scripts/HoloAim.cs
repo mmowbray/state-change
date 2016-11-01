@@ -3,36 +3,29 @@ using System.Collections;
 
 public class HoloAim : MonoBehaviour
 {
-    private bool targetting;
-    private bool blockVisible;
     public GameObject holoBlock;
     public GameObject aimer;
+
     private PlayerExtension parentPlayer;
     [SerializeField] private float m_ScaleSpeed;
     private GameObject highlightedBlock;
-    // Use this for initialization
+	private bool targetting;
+    
     void Start ()
     {
-        targetting = false;
-        blockVisible = false;
         parentPlayer = transform.parent.transform.parent.gameObject.GetComponent<PlayerExtension>();
-        //Instantiate(holoBlock, new Vector3(0.0f, -4.0f, 0.0f), this.transform.rotation); //The 0, -3, 0 is just somewhere invisible so we don't have to keep reinstantiating it
+		holoBlock.SetActive (false);
+		targetting = false;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
         RaycastHit hit;
-        if (Input.GetButtonUp("ActivateAiming"))
+		if (Input.GetButtonDown("ActivateAiming"))
         {
-            Debug.Log("Targetting");
-            if (!targetting)
-                targetting = true;
-            else
-            {
-                targetting = false;
-                holoBlock.transform.position = new Vector3(0.0f, -4.0f, 0.0f);
-            }
+			targetting = !targetting;
+			holoBlock.SetActive (targetting);
         }
 
         if (targetting)
@@ -54,7 +47,8 @@ public class HoloAim : MonoBehaviour
             }
             else if (Physics.Raycast(transform.position, aimer.transform.forward, out hit) && hit.transform.gameObject.layer == LayerMask.NameToLayer("MassBlock"))
             {
-                hit.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
+				if (hit.transform.gameObject.GetComponent<Renderer>())
+                	hit.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
                 highlightedBlock = hit.transform.gameObject;
                 if (hit.transform.gameObject != highlightedBlock)
                 {
