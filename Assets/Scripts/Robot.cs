@@ -8,7 +8,7 @@ public class Robot : MonoBehaviour
 	public Transform target;
 	public float followRange = 3.0f;
 	public float arriveThreshold = 0.05f;
-    public bool attacking;
+    public bool isAttacking;
 
 	private RobotStrategy _robotStrategy;
 
@@ -16,22 +16,32 @@ public class Robot : MonoBehaviour
     private bool defeated = false;
     private float disappearTimer = 0;
 
+    private Animator mAnimator;
+
 	// Use this for initialization
 	void Start() 
 	{
 		this.SetRobotStrategy(robotStrategyName);
-		_robotStrategy.Start();
-	}
+        mAnimator = GetComponent<Animator>();
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (!defeated)
-        _robotStrategy.Update();
+        {
+            _robotStrategy.Update();
+            if (isAttacking)
+                mAnimator.SetBool("isAttacking", true);
+            else mAnimator.SetBool("isAttacking", false);
+        }
         if (defeatTrigger && !defeated)
         {
+            mAnimator.SetBool("isAttacking", false);
+            mAnimator.Stop();
             defeated = true;
             fallApart();
+
         }
         else if (defeated)
             disappearTimer += Time.deltaTime;
@@ -70,48 +80,25 @@ public class Robot : MonoBehaviour
 				break;	
 			case "RobotStrategyB": 
 				this._robotStrategy = new RobotStrategyB(gameObject, target);
-				break;
-			case "RobotStrategyC": 
-				this._robotStrategy = new RobotStrategyC(gameObject, target);
-				break;
+				break;	
 			default :
 				this._robotStrategy = new RobotStrategyA(gameObject, target);
 				break;	
 		}
 	}
 
-//	void OnTriggerEnter(Collider col)
-//	{
-//		_robotStrategy.OnTriggerEnter(col);
-//	}
-//
-//	void OnTriggerStay(Collider col)
-//	{
-//		_robotStrategy.OnTriggerStay(col);
-//	}
-//
-//	void OnTriggerExit(Collider col)
-//	{
-//		_robotStrategy.OnTriggerExit(col);
-//	}
+	void OnTriggerEnter(Collider col)
+	{
+		_robotStrategy.OnTriggerEnter(col);
+	}
 
-//	void OnCollisionEnter(Collision col)
-//	{
-//		Debug.Log("ehoruiueyg;fvq");
-//		_robotStrategy.OnCollisionEnter(col);
-//	}
-//
-//	void OnCollisionStay(Collision col)
-//	{
-//		Debug.Log("ehoruiueyg;fvq");
-//
-//		_robotStrategy.OnCollisionStay(col);
-//	}
-//
-//	void OnCollisionExit(Collision col)
-//	{
-//		Debug.Log("ehoruiueyg;fvq");
-//
-//		_robotStrategy.OnCollisionExit(col);
-//	}
+	void OnTriggerStay(Collider col)
+	{
+		_robotStrategy.OnTriggerStay(col);
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		_robotStrategy.OnTriggerExit(col);
+	}
 }
