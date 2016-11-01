@@ -8,8 +8,13 @@ public class Robot : MonoBehaviour
 	public Transform target;
 	public float followRange = 3.0f;
 	public float arriveThreshold = 0.05f;
+    public bool attacking;
 
 	private RobotStrategy _robotStrategy;
+
+    public bool defeatTrigger = false;
+    private bool defeated = false;
+    private float disappearTimer = 0;
 
 	// Use this for initialization
 	void Start() 
@@ -17,12 +22,44 @@ public class Robot : MonoBehaviour
 		this.SetRobotStrategy(robotStrategyName);
 		_robotStrategy.Start();
 	}
-	
-	// Update is called once per frame
-	void Update() 
-	{
-		_robotStrategy.Update();
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!defeated)
+        _robotStrategy.Update();
+        if (defeatTrigger && !defeated)
+        {
+            defeated = true;
+            fallApart();
+        }
+        else if (defeated)
+            disappearTimer += Time.deltaTime;
+        if (disappearTimer > 5)
+        {
+            // shrinks from view until invisible, then removes game object
+            transform.localScale = Vector3.Scale(transform.localScale, new Vector3(0.9f, 0.9f, 0.9f ));
+            if (transform.localScale.magnitude < 0.001)
+                Destroy(gameObject);
+        }
+
 	}
+
+    private void fallApart()
+    {
+        SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>() as SphereCollider[];
+        foreach (SphereCollider s in spheres)
+            Component.Destroy(s);
+
+        Rigidbody[] objects = GetComponentsInChildren<Rigidbody>() as Rigidbody[];
+
+        foreach (Rigidbody r in objects)
+        {
+            r.isKinematic = false;
+            r.useGravity = true;
+            r.AddExplosionForce(Random.value * 4, transform.position, 3);
+        }
+    }
 
 	public void SetRobotStrategy(string robotStrategyName)
 	{
