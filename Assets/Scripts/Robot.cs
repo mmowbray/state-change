@@ -15,6 +15,7 @@ public class Robot : MonoBehaviour
 	void Start() 
 	{
 		this.SetRobotStrategy(robotStrategyName);
+		_robotStrategy.Start();
 	}
 	
 	// Update is called once per frame
@@ -32,7 +33,10 @@ public class Robot : MonoBehaviour
 				break;	
 			case "RobotStrategyB": 
 				this._robotStrategy = new RobotStrategyB(gameObject, target);
-				break;	
+				break;
+			case "RobotStrategyC": 
+				this._robotStrategy = new RobotStrategyC(gameObject, target);
+				break;
 			default :
 				this._robotStrategy = new RobotStrategyA(gameObject, target);
 				break;	
