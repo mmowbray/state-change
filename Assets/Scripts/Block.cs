@@ -4,8 +4,19 @@ using System.Collections;
 public class Block : MonoBehaviour {
 	[SerializeField] private float m_ScaleSpeed;
 	public Vector3 wallPoint;
+	private bool gazedAt;
 
 	void Start(){
+		gazedAt = false;
+	}
+
+	void Update(){
+		if (gazedAt) {
+			GetComponent<Renderer>().material.color = Color.green;
+			gazedAt = false;
+		} else {
+			GetComponent<Renderer> ().material.color = Color.red;
+		}
 	}
 
 	public void StretchBy(float amount){
@@ -18,5 +29,10 @@ public class Block : MonoBehaviour {
 			Destroy (col.gameObject);
 			Destroy (gameObject);
 		}
+	}
+
+	public void alertGazed()
+	{
+		this.gazedAt = true;
 	}
 }

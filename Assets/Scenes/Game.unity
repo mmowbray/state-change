@@ -518,7 +518,6 @@ GameObject:
   - 114: {fileID: 352426753}
   - 54: {fileID: 352426752}
   - 82: {fileID: 352426751}
-  - 114: {fileID: 352426750}
   m_Layer: 0
   m_Name: FPSController
   m_TagString: Untagged
@@ -526,22 +525,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &352426750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114000013004223046, guid: 3b07527b5c58043a98cc0dfe966cf3a4,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 352426749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3788e984a1bc44b4cb6bb20ba98f8911, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BulletPrefab: {fileID: 1000011244306258, guid: 22a376f20682d4693aee0decf07388a2,
-    type: 2}
-  m_BulletSpawnLocation: {fileID: 624597081}
-  m_BulletSpeed: 25
 --- !u!82 &352426751
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1538,8 +1521,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holoBlock: {fileID: 220348717}
+  realBlock: {fileID: 1000010974615740, guid: 4c4df6f2b61eb473ba7af5de8925409b, type: 2}
   aimer: {fileID: 2136078114}
-  m_ScaleSpeed: 10
+  m_ScaleSpeed: 50
 --- !u!1 &1496792648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,6 +1905,10 @@ Prefab:
     - target: {fileID: 1000011256404688, guid: ffd6c2976a4944651812914e1cbf3508, type: 2}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011256404688, guid: ffd6c2976a4944651812914e1cbf3508, type: 2}
+      propertyPath: m_Name
+      value: Floor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffd6c2976a4944651812914e1cbf3508, type: 2}

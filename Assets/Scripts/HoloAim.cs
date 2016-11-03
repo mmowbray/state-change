@@ -4,58 +4,73 @@ using System.Collections;
 public class HoloAim : MonoBehaviour
 {
     public GameObject holoBlock;
+	public GameObject realBlock;
     public GameObject aimer;
 
-    private PlayerExtension parentPlayer;
     [SerializeField] private float m_ScaleSpeed;
     private GameObject highlightedBlock;
 	private bool targetting;
+	private ParticleSystem chargeEffects;
+	private float charge;
     
     void Start ()
     {
-        parentPlayer = transform.parent.transform.parent.gameObject.GetComponent<PlayerExtension>();
 		holoBlock.SetActive (false);
-		targetting = false;
+		targetting = true;
+		chargeEffects = gameObject.GetComponentInChildren<ParticleSystem> ();
+		charge = 0f;
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        RaycastHit hit;
-		if (Input.GetButtonDown("ActivateAiming"))
-        {
-			targetting = !targetting;
-			holoBlock.SetActive (targetting);
-        }
 
-        if (targetting)
-        {
-            if (Physics.Raycast(transform.position, aimer.transform.forward, out hit) && hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //draw line from pos in the fwrd direction, store collision info in "hit"
-            {
-                if (parentPlayer.getCharge() == 0)
-                    holoBlock.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                else
-                    holoBlock.transform.localScale = new Vector3(1.0f, 1.0f + (parentPlayer.getCharge() * m_ScaleSpeed), 1.0f);
-                holoBlock.transform.position = hit.point;
-                holoBlock.transform.rotation = hit.transform.gameObject.transform.rotation;
-                if (hit.transform.gameObject != highlightedBlock)
-                {
-                    if (highlightedBlock != null)
-                        highlightedBlock.GetComponent<Renderer>().material.color = Color.red;
-                    highlightedBlock = null;
-                }
-            }
-            else if (Physics.Raycast(transform.position, aimer.transform.forward, out hit) && hit.transform.gameObject.layer == LayerMask.NameToLayer("MassBlock"))
-            {
-				if (hit.transform.gameObject.GetComponent<Renderer>())
-                	hit.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
-                highlightedBlock = hit.transform.gameObject;
-                if (hit.transform.gameObject != highlightedBlock)
-                {
-                    highlightedBlock.GetComponent<Renderer>().material.color = Color.red;
-                    highlightedBlock = hit.transform.gameObject;
-                }
-            }
-        }
+	void Update()
+	{
+
+		if (Input.GetButtonDown ("ActivateAiming"))
+			targetting = !targetting;
+
+		holoBlock.SetActive (targetting);
+
+		if (Input.GetKey (KeyCode.Mouse0)) {
+			charge += Time.fixedDeltaTime;
+			if(Input.GetKey(KeyCode.Mouse1))
+				charge = 0f;
+			if (!chargeEffects.isPlaying)
+				chargeEffects.Play ();
+		}
+
+		RaycastHit hit; //where the intersection is in world coords
+
+		if (Physics.Raycast (transform.position, aimer.transform.forward, out hit)) { //there was a collision with something in the scene
+
+			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
+			{
+				holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
+				holoBlock.transform.position = hit.point;
+				holoBlock.transform.rotation = hit.transform.gameObject.transform.rotation;
+			}
+			else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("MassBlock"))
+			{
+				var gazedAtBlock = hit.transform.gameObject.GetComponentInChildren<Block> ();
+				if (gazedAtBlock) {
+					if (Input.GetKeyDown (KeyCode.Mouse0)) {
+						Destroy (gazedAtBlock.gameObject);
+					}
+					else {
+						gazedAtBlock.alertGazed ();
+						holoBlock.SetActive (false); //hide holo block if we are looking at an existing block
+					}
+
+				}
+					
+			}
+
+			if (Input.GetKeyUp (KeyCode.Mouse0)) {
+
+				GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
+				newBlock.transform.localScale = holoBlock.transform.localScale;
+
+				charge = 0; //reset the charge
+				chargeEffects.Stop();
+			}
+		}
     }
 }
