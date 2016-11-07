@@ -12,6 +12,9 @@ public class HoloAim : MonoBehaviour
 	private bool targetting;
 	private ParticleSystem chargeEffects;
 	private float charge;
+
+    private int blockLimit = 5;
+    private int numBlocks = 0;
     
     void Start ()
     {
@@ -53,6 +56,7 @@ public class HoloAim : MonoBehaviour
 				if (gazedAtBlock) {
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						Destroy (gazedAtBlock.gameObject);
+                        numBlocks--; // decrement the number of blocks on the scene when it is destroyed
 					}
 					else {
 						gazedAtBlock.alertGazed ();
@@ -63,14 +67,16 @@ public class HoloAim : MonoBehaviour
 					
 			}
 
-			if (Input.GetKeyUp (KeyCode.Mouse0)) {
-
+			if (Input.GetKeyUp (KeyCode.Mouse0) && numBlocks < blockLimit) { // a block can only be created if it's within the limit
 				GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 				newBlock.transform.localScale = holoBlock.transform.localScale;
 
 				charge = 0; //reset the charge
+                numBlocks++; // increase the number of blocks that is on the scene
 				chargeEffects.Stop();
 			}
+
+           // Debug.Log("number of blocks on scene: " + numBlocks);
 		}
     }
 }
