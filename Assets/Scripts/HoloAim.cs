@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HoloAim : MonoBehaviour
 {
+    public Text counterText;
     public GameObject holoBlock;
 	public GameObject realBlock;
     public GameObject aimer;
@@ -14,7 +16,7 @@ public class HoloAim : MonoBehaviour
 	private float charge;
 
     private int blockLimit = 5;
-    private int numBlocks = 0;
+    private int numBlocks;
     
     void Start ()
     {
@@ -22,17 +24,18 @@ public class HoloAim : MonoBehaviour
 		targetting = true;
 		chargeEffects = gameObject.GetComponentInChildren<ParticleSystem> ();
 		charge = 0f;
+        numBlocks = 0;
+        SetBlockText();
     }
 
 	void Update()
 	{
-
 		if (Input.GetButtonDown ("ActivateAiming"))
 			targetting = !targetting;
 
 		holoBlock.SetActive (targetting);
 
-		if (Input.GetKey (KeyCode.Mouse0)) {
+		if (Input.GetKey (KeyCode.Mouse0) && numBlocks < blockLimit) {
 			charge += Time.fixedDeltaTime;
 			if(Input.GetKey(KeyCode.Mouse1))
 				charge = 0f;
@@ -57,7 +60,9 @@ public class HoloAim : MonoBehaviour
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						Destroy (gazedAtBlock.gameObject);
                         numBlocks--; // decrement the number of blocks on the scene when it is destroyed
-					}
+                        SetBlockText();
+
+                    }
 					else {
 						gazedAtBlock.alertGazed ();
 						holoBlock.SetActive (false); //hide holo block if we are looking at an existing block
@@ -74,9 +79,16 @@ public class HoloAim : MonoBehaviour
 				charge = 0; //reset the charge
                 numBlocks++; // increase the number of blocks that is on the scene
 				chargeEffects.Stop();
-			}
+                SetBlockText();
+
+            }
 
            // Debug.Log("number of blocks on scene: " + numBlocks);
 		}
+    }
+
+    void SetBlockText ()
+    {
+        counterText.text = "Block Limit: " + blockLimit.ToString() + "\n" + "Number of Blocks on Scene: " + numBlocks.ToString();
     }
 }
