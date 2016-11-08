@@ -12,6 +12,8 @@ public class HoloAim : MonoBehaviour
 	private bool targetting;
 	private ParticleSystem chargeEffects;
 	private float charge;
+	private bool ignoreMouse0KeyUp;
+
     
     void Start ()
     {
@@ -53,7 +55,7 @@ public class HoloAim : MonoBehaviour
 				if (gazedAtBlock) {
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						Destroy (gazedAtBlock.gameObject);
-						return; // if a block is being removed then we are done and don't anything else.
+						ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
 					}
 					else {
 						gazedAtBlock.alertGazed ();
@@ -64,13 +66,16 @@ public class HoloAim : MonoBehaviour
 					
 			}
 
-			if (Input.GetKeyDown (KeyCode.Mouse0)) {
+			if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (ignoreMouse0KeyUp == true) { // Mouse0 KeyUp needs to be ignored if Mouse0 was pressed to delete the block
+					ignoreMouse0KeyUp = false; 
+				} else {
+					GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
+					newBlock.transform.localScale = holoBlock.transform.localScale;
 
-				GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
-				newBlock.transform.localScale = holoBlock.transform.localScale;
-
-				charge = 0; //reset the charge
-				chargeEffects.Stop();
+					charge = 0; //reset the charge
+					chargeEffects.Stop ();
+				}
 			}
 		}
     }
