@@ -53,6 +53,7 @@ public class HoloAim : MonoBehaviour
 				if (gazedAtBlock) {
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						Destroy (gazedAtBlock.gameObject);
+						return; // if a block is being removed then we are done and don't anything else.
 					}
 					else {
 						gazedAtBlock.alertGazed ();
@@ -63,7 +64,7 @@ public class HoloAim : MonoBehaviour
 					
 			}
 
-			if (Input.GetKeyUp (KeyCode.Mouse0)) {
+			if (Input.GetKeyDown (KeyCode.Mouse0)) {
 
 				GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 				newBlock.transform.localScale = holoBlock.transform.localScale;
