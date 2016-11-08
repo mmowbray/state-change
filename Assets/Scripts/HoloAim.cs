@@ -8,12 +8,17 @@ public class HoloAim : MonoBehaviour
     public GameObject aimer;
 
     [SerializeField] private float m_ScaleSpeed;
+	[SerializeField] float m_fixedLength;
     private GameObject highlightedBlock;
 	private bool targetting;
 	private ParticleSystem chargeEffects;
 	private float charge;
+<<<<<<< HEAD
 	private bool ignoreMouse0KeyUp;
 
+=======
+	private bool isPuzzleMode = false;
+>>>>>>> 0bd0acd2954b68660ee38a38f67e066a79212b11
     
     void Start ()
     {
@@ -25,7 +30,7 @@ public class HoloAim : MonoBehaviour
 
 	void Update()
 	{
-
+		GunMode ();
 		if (Input.GetButtonDown ("ActivateAiming"))
 			targetting = !targetting;
 
@@ -33,10 +38,14 @@ public class HoloAim : MonoBehaviour
 
 		if (Input.GetKey (KeyCode.Mouse0)) {
 			charge += Time.fixedDeltaTime;
-			if(Input.GetKey(KeyCode.Mouse1))
+
+			if (Input.GetKey (KeyCode.Mouse1)) {
 				charge = 0f;
-			if (!chargeEffects.isPlaying)
+			}
+
+			if (!chargeEffects.isPlaying) {
 				chargeEffects.Play ();
+			}
 		}
 
 		RaycastHit hit; //where the intersection is in world coords
@@ -45,7 +54,11 @@ public class HoloAim : MonoBehaviour
 
 			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
-				holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
+				if (isPuzzleMode == false) {
+					holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
+				} else {
+					holoBlock.transform.localScale = new Vector3 (1.0f,m_fixedLength , 1.0f);
+				}
 				holoBlock.transform.position = hit.point;
 				holoBlock.transform.rotation = hit.transform.gameObject.transform.rotation;
 			}
@@ -79,4 +92,10 @@ public class HoloAim : MonoBehaviour
 			}
 		}
     }
+
+	void GunMode (){
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			isPuzzleMode = !isPuzzleMode;
+		}
+	}
 }
