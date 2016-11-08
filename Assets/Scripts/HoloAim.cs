@@ -13,12 +13,8 @@ public class HoloAim : MonoBehaviour
 	private bool targetting;
 	private ParticleSystem chargeEffects;
 	private float charge;
-<<<<<<< HEAD
 	private bool ignoreMouse0KeyUp;
-
-=======
 	private bool isPuzzleMode = false;
->>>>>>> 0bd0acd2954b68660ee38a38f67e066a79212b11
     
     void Start ()
     {
