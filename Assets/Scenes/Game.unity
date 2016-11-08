@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.57508564, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692445, g: 0.49678475, b: 0.5750831, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1520,10 +1520,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93a3c6aef897e143bf288cf3c548513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ScaleSpeed: 50
+  m_FixedLength: 10
   holoBlock: {fileID: 220348717}
   realBlock: {fileID: 1000010974615740, guid: 4c4df6f2b61eb473ba7af5de8925409b, type: 2}
   aimer: {fileID: 2136078114}
-  m_ScaleSpeed: 50
 --- !u!1 &1496792648
 GameObject:
   m_ObjectHideFlags: 0
