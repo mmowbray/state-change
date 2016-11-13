@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HoloAim : MonoBehaviour
 {
@@ -19,10 +20,12 @@ public class HoloAim : MonoBehaviour
 	private bool targetting;
 
 	private float charge;
-	private bool ignoreMouse0KeyUp;
+	private bool ignoreMouse0KeyUp; // this was needed to ignore the mouse up when it was used to delete blocks
 	private bool chargeMassGun = true;
 	private bool isPuzzleMode = false;
 	private int numBlocks;
+
+	private List<GameObject> blocksList;
 
     void Start()
     {
@@ -33,19 +36,16 @@ public class HoloAim : MonoBehaviour
         blockLimit = 10;
         numBlocks = 0;
         SetBlockText();
+		blocksList = new List<GameObject>();
     }
 
 	void Update()
 	{
-		GunMode (); 
 
 		if (Input.GetButtonDown ("ActivateAiming"))
 			targetting = !targetting;
 
 		holoBlock.SetActive (targetting);
-
-
-
 
 		if (Physics.Raycast (transform.position, aimer.transform.forward, out hit)) { //there was a collision with something in the scene
 
@@ -67,12 +67,15 @@ public class HoloAim : MonoBehaviour
 				var gazedAtBlock = hit.transform.gameObject.GetComponentInChildren<Block> ();
 				if (gazedAtBlock) {
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
-						Destroy (gazedAtBlock.gameObject.transform.parent.gameObject);
+						GameObject blockToDelete = gazedAtBlock.gameObject.transform.parent.gameObject;
+						blocksList.Remove (blockToDelete);
+						Destroy (blockToDelete);
 						ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
 						chargeMassGun = false;
-						numBlocks--; // decrement the number of blocks on the scene when it is destroyed
+						numBlocks = blocksList.Count; // decrement the number of blocks on the scene when it is destroyed
 						SetBlockText();
 						charge = 0; //reset the charge
+
 					}
 					else {
 						gazedAtBlock.alertGazed ();
@@ -84,8 +87,41 @@ public class HoloAim : MonoBehaviour
 			}
 
 			createBlock ();
+
+			PlayerKeyOptions ();
 		}
     }
+
+	void PlayerKeyOptions(){
+		GunMode ();
+		DeleteAllBlocks ();
+		DeletePreviousBlock ();
+	}
+
+	void DeleteAllBlocks(){
+		if (Input.GetKeyDown (KeyCode.K)) {
+			int totalBlocks = blocksList.Count;
+			for(int x = 0; x < totalBlocks; x++){
+				GameObject blockToDestroy = blocksList [0];
+				if (blocksList.Remove (blockToDestroy)) { // if block was found and removed
+					Destroy (blockToDestroy);
+				}
+			}
+			numBlocks = blocksList.Count;
+			SetBlockText();
+		}
+	}
+
+	void DeletePreviousBlock(){
+		if (Input.GetKeyDown (KeyCode.J)) {
+			GameObject blockToDestroy = blocksList [0];
+			if (blocksList.Remove (blockToDestroy)) { // if block was found and removed
+				Destroy (blockToDestroy);
+			}
+		}
+		numBlocks = blocksList.Count;
+		SetBlockText();
+	}
 
 	void createBlock(){
 		
@@ -93,9 +129,9 @@ public class HoloAim : MonoBehaviour
 
 			GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 			newBlock.transform.localScale = holoBlock.transform.localScale;
-
+			blocksList.Add (newBlock);
 			charge = 0; //reset the charge
-			numBlocks++;
+			numBlocks = blocksList.Count;
 			SetBlockText();
 			chargeEffects.Stop ();
 		}else if (Input.GetKeyUp (KeyCode.Mouse0)) {
@@ -106,7 +142,7 @@ public class HoloAim : MonoBehaviour
 
 	void ChargeGun(){
 
-		if (Input.GetKey (KeyCode.Mouse0) && ignoreMouse0KeyUp == false) {
+		if (Input.GetKey (KeyCode.Mouse0) && ignoreMouse0KeyUp == false && numBlocks < blockLimit) {
 			charge += Time.fixedDeltaTime;
 
 			if (Input.GetKey (KeyCode.Mouse1)) {
