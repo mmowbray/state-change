@@ -43,7 +43,7 @@ public class HoloAim : MonoBehaviour
 
 		holoBlock.SetActive (targetting);
 
-		ChargeGun ();
+
 
 
 		if (Physics.Raycast (transform.position, aimer.transform.forward, out hit)) { //there was a collision with something in the scene
@@ -51,6 +51,7 @@ public class HoloAim : MonoBehaviour
 			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
 				if (isPuzzleMode == false) {
+					ChargeGun ();
 					holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
 				} else {
 					holoBlock.transform.localScale = new Vector3 (1.0f,m_FixedLength , 1.0f);
@@ -63,7 +64,7 @@ public class HoloAim : MonoBehaviour
 				var gazedAtBlock = hit.transform.gameObject.GetComponentInChildren<Block> ();
 				if (gazedAtBlock) {
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
-						Destroy (gazedAtBlock.gameObject);
+						Destroy (gazedAtBlock.gameObject.transform.parent.gameObject);
 						ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
 						numBlocks--; // decrement the number of blocks on the scene when it is destroyed
 						SetBlockText();
@@ -78,7 +79,6 @@ public class HoloAim : MonoBehaviour
 			}
 
 			createBlock ();
-
 		}
     }
 
