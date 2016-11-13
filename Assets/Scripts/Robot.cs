@@ -43,20 +43,20 @@ public class Robot : MonoBehaviour
 		}
 	}
 
-	void OnTriggerEnter(Collider col)
-	{
-		_robotStrategy.OnTriggerEnter(col);
-	}
-
-	void OnTriggerStay(Collider col)
-	{
-		_robotStrategy.OnTriggerStay(col);
-	}
-
-	void OnTriggerExit(Collider col)
-	{
-		_robotStrategy.OnTriggerExit(col);
-	}
+//	void OnTriggerEnter(Collider col)
+//	{
+//		_robotStrategy.OnTriggerEnter(col);
+//	}
+//
+//	void OnTriggerStay(Collider col)
+//	{
+//		_robotStrategy.OnTriggerStay(col);
+//	}
+//
+//	void OnTriggerExit(Collider col)
+//	{
+//		_robotStrategy.OnTriggerExit(col);
+//	}
 
 //	void OnCollisionEnter(Collision col)
 //	{

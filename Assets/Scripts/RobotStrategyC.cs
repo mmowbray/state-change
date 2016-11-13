@@ -12,7 +12,7 @@ namespace RobotStuff
 
 		public override void Start()
 		{
-			_followRange = 100.0f;
+			_followRange = 25.0f;
 			_arriveThreshold = 0.05f;
 			_followSpeed = 2.0f;
 
@@ -38,10 +38,33 @@ namespace RobotStuff
 //				FollowTarget();
 //			}
 
-			if(!_touching)
+//			if(!_touching)
+//			{
+//				FollowTarget();
+//			}
+
+
+			Vector3 direction = _target.transform.position - _myGameObject.transform.position;
+			if(direction.magnitude <= _followRange)
 			{
-				FollowTarget();
+//				_myGameObject.transform.rotation = Quaternion.RotateTowards(_myGameObject.transform.rotation, Quaternion.LookRotation(direction), _angularSpeed * Time.deltaTime);
+
+				if(direction.magnitude > _arriveThreshold)
+				{
+//					Vector3 dir = direction.normalized;
+//					dir.y = 0;
+//					_myGameObject.transform.Translate(dir * _followSpeed * Time.deltaTime, Space.World);
+
+					_myNavMeshAgent.SetDestination(_target.position);
+				}
+//				else
+//				{
+//					Vector3 tarPos = _target.transform.position;
+//					tarPos.y = 0;
+//					_myGameObject.transform.position = tarPos;
+//				}
 			}
+
 		}
 
 		public void FollowTarget()
