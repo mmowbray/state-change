@@ -1,29 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HoloAim : MonoBehaviour
 {
 	[SerializeField] private float m_ScaleSpeed;
 	[SerializeField] float m_FixedLength;
+	[SerializeField] int blockLimit;
 
     public GameObject holoBlock;
-	public GameObject realBlock;
+    public GameObject realBlock;
     public GameObject aimer;
+	public Text counterText;
 
     private GameObject highlightedBlock;
-	private bool targetting;
 	private ParticleSystem chargeEffects;
+	private RaycastHit hit; //where the intersection is in world coords
+	private bool targetting;
+
 	private float charge;
 	private bool ignoreMouse0KeyUp;
 	private bool isPuzzleMode = false;
-	private RaycastHit hit; //where the intersection is in world coords
+	private int numBlocks;
 
-    void Start ()
+    void Start()
     {
-		holoBlock.SetActive (false);
-		targetting = true;
-		chargeEffects = gameObject.GetComponentInChildren<ParticleSystem> ();
-		charge = 0f;
+        holoBlock.SetActive(false);
+        targetting = true;
+        chargeEffects = gameObject.GetComponentInChildren<ParticleSystem>();
+        charge = 0f;
+        blockLimit = 10;
+        numBlocks = 0;
+        SetBlockText();
     }
 
 	void Update()
@@ -57,6 +65,8 @@ public class HoloAim : MonoBehaviour
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						Destroy (gazedAtBlock.gameObject);
 						ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
+						numBlocks--; // decrement the number of blocks on the scene when it is destroyed
+						SetBlockText();
 					}
 					else {
 						gazedAtBlock.alertGazed ();
@@ -74,7 +84,7 @@ public class HoloAim : MonoBehaviour
 
 	void createBlock(){
 		
-		if (Input.GetKeyUp (KeyCode.Mouse0)) {
+		if (Input.GetKeyUp (KeyCode.Mouse0) && numBlocks < blockLimit) {
 			if (ignoreMouse0KeyUp == true) { // Mouse0 KeyUp needs to be ignored if Mouse0 was pressed to delete the block
 				ignoreMouse0KeyUp = false; 
 			} else {
@@ -82,6 +92,8 @@ public class HoloAim : MonoBehaviour
 				newBlock.transform.localScale = holoBlock.transform.localScale;
 
 				charge = 0; //reset the charge
+				numBlocks++;
+				SetBlockText();
 				chargeEffects.Stop ();
 			}
 		}
@@ -106,4 +118,11 @@ public class HoloAim : MonoBehaviour
 			isPuzzleMode = !isPuzzleMode;
 		}
 	}
+
+	void SetBlockText()
+	{
+		counterText.text = "Block Limit: " + blockLimit.ToString() + "\n" + "Number of Blocks on Scene: " + numBlocks.ToString();
+
+	}
+
 }
