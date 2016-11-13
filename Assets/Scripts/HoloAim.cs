@@ -20,6 +20,7 @@ public class HoloAim : MonoBehaviour
 
 	private float charge;
 	private bool ignoreMouse0KeyUp;
+	private bool chargeMassGun = true;
 	private bool isPuzzleMode = false;
 	private int numBlocks;
 
@@ -48,8 +49,10 @@ public class HoloAim : MonoBehaviour
 
 		if (Physics.Raycast (transform.position, aimer.transform.forward, out hit)) { //there was a collision with something in the scene
 
+
 			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
+				
 				if (isPuzzleMode == false) {
 					ChargeGun ();
 					holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
@@ -66,8 +69,10 @@ public class HoloAim : MonoBehaviour
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						Destroy (gazedAtBlock.gameObject.transform.parent.gameObject);
 						ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
+						chargeMassGun = false;
 						numBlocks--; // decrement the number of blocks on the scene when it is destroyed
 						SetBlockText();
+						charge = 0; //reset the charge
 					}
 					else {
 						gazedAtBlock.alertGazed ();
@@ -75,7 +80,7 @@ public class HoloAim : MonoBehaviour
 					}
 
 				}
-					
+
 			}
 
 			createBlock ();
@@ -84,23 +89,24 @@ public class HoloAim : MonoBehaviour
 
 	void createBlock(){
 		
-		if (Input.GetKeyUp (KeyCode.Mouse0) && numBlocks < blockLimit) {
-			if (ignoreMouse0KeyUp == true) { // Mouse0 KeyUp needs to be ignored if Mouse0 was pressed to delete the block
-				ignoreMouse0KeyUp = false; 
-			} else {
-				GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
-				newBlock.transform.localScale = holoBlock.transform.localScale;
+		if (Input.GetKeyUp (KeyCode.Mouse0) && numBlocks < blockLimit && ignoreMouse0KeyUp == false) {
 
-				charge = 0; //reset the charge
-				numBlocks++;
-				SetBlockText();
-				chargeEffects.Stop ();
-			}
+			GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
+			newBlock.transform.localScale = holoBlock.transform.localScale;
+
+			charge = 0; //reset the charge
+			numBlocks++;
+			SetBlockText();
+			chargeEffects.Stop ();
+		}else if (Input.GetKeyUp (KeyCode.Mouse0)) {
+			ignoreMouse0KeyUp = false;
 		}
+
 	}
 
 	void ChargeGun(){
-		if (Input.GetKey (KeyCode.Mouse0)) {
+
+		if (Input.GetKey (KeyCode.Mouse0) && ignoreMouse0KeyUp == false) {
 			charge += Time.fixedDeltaTime;
 
 			if (Input.GetKey (KeyCode.Mouse1)) {
@@ -111,6 +117,7 @@ public class HoloAim : MonoBehaviour
 				chargeEffects.Play ();
 			}
 		}
+
 	}
 
 	void GunMode (){
