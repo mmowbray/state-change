@@ -26,7 +26,7 @@ public class HoloAim : MonoBehaviour
         targetting = true;
         chargeEffects = gameObject.GetComponentInChildren<ParticleSystem>();
         charge = 0f;
-        blockLimit = 5;
+        blockLimit = 100;
         numBlocks = 0;
         SetBlockText();
     }
