@@ -243,18 +243,31 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            Rigidbody body = hit.collider.attachedRigidbody;
-            //dont move the rigidbody if the character is on top of it
-            if (m_CollisionFlags == CollisionFlags.Below)
+            if (hit.gameObject.tag != "Damaging Component")
             {
-                return;
+                Rigidbody body = hit.collider.attachedRigidbody;
+                //dont move the rigidbody if the character is on top of it
+                if (m_CollisionFlags == CollisionFlags.Below)
+                {
+                    return;
+                }
+
+                if (body == null || body.isKinematic)
+                {
+                    return;
+                }
+                body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
             }
 
-            if (body == null || body.isKinematic)
+            else
             {
-                return;
+                //death happens idk
+                Debug.Log("u ded :(");
+
+                //Destroy(gameObject); 
+                // ^^^ uncomment for a chuckle 
+                // needs proper functionality
             }
-            body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
         }
     }
 }
