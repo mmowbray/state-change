@@ -27,14 +27,19 @@ public class HoloAim : MonoBehaviour
 
 	private List<GameObject> blocksList;
 
+    [SerializeField] private AudioSource shootSound;
+    [SerializeField] private AudioSource switchSound;
+    [SerializeField] private AudioSource retractSound;
+    [SerializeField] private AudioSource chargeSound;
+
     void Start()
     {
         holoBlock.SetActive(false);
         targetting = true;
         chargeEffects = gameObject.GetComponentInChildren<ParticleSystem>();
         charge = 0f;
-        blockLimit = 10;
-        numBlocks = 0;
+        //blockLimit = 10;
+        numBlocks = 1;
         SetBlockText();
 		blocksList = new List<GameObject>();
     }
@@ -42,8 +47,11 @@ public class HoloAim : MonoBehaviour
 	void Update()
 	{
 
-		if (Input.GetButtonDown ("ActivateAiming"))
-			targetting = !targetting;
+        if (Input.GetButtonDown("ActivateAiming"))
+        {
+            targetting = !targetting;
+            switchSound.Play();
+        }
 
 		holoBlock.SetActive (targetting);
 
@@ -70,13 +78,13 @@ public class HoloAim : MonoBehaviour
 						GameObject blockToDelete = gazedAtBlock.gameObject.transform.parent.gameObject;
 						blocksList.Remove (blockToDelete);
 						Destroy (blockToDelete);
-						ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
+                        ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
 						chargeMassGun = false;
 						numBlocks = blocksList.Count; // decrement the number of blocks on the scene when it is destroyed
 						SetBlockText();
 						charge = 0; //reset the charge
-
-					}
+                        retractSound.Play();
+                    }
 					else {
 						gazedAtBlock.alertGazed ();
 						holoBlock.SetActive (false); //hide holo block if we are looking at an existing block
@@ -109,7 +117,8 @@ public class HoloAim : MonoBehaviour
 			}
 			numBlocks = blocksList.Count;
 			SetBlockText();
-		}
+            retractSound.Play();
+        }
 	}
 
 	void DeletePreviousBlock(){
@@ -117,11 +126,12 @@ public class HoloAim : MonoBehaviour
 			GameObject blockToDestroy = blocksList [0];
 			if (blocksList.Remove (blockToDestroy)) { // if block was found and removed
 				Destroy (blockToDestroy);
-			}
+                retractSound.Play();
+            }
 		}
 		numBlocks = blocksList.Count;
 		SetBlockText();
-	}
+    }
 
 	void createBlock(){
 		
@@ -134,6 +144,8 @@ public class HoloAim : MonoBehaviour
 			numBlocks = blocksList.Count;
 			SetBlockText();
 			chargeEffects.Stop ();
+            chargeSound.Stop();
+            shootSound.Play();
 		}else if (Input.GetKeyUp (KeyCode.Mouse0)) {
 			ignoreMouse0KeyUp = false;
 		}
@@ -151,7 +163,8 @@ public class HoloAim : MonoBehaviour
 
 			if (!chargeEffects.isPlaying) {
 				chargeEffects.Play ();
-			}
+                chargeSound.Play();
+            }
 		}
 
 	}
@@ -159,7 +172,8 @@ public class HoloAim : MonoBehaviour
 	void GunMode (){
 		if (Input.GetKeyDown (KeyCode.Q)) {
 			isPuzzleMode = !isPuzzleMode;
-		}
+            switchSound.Play();
+        }
 	}
 
 	void SetBlockText()

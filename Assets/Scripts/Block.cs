@@ -31,7 +31,7 @@ public class Block : MonoBehaviour {
 		}
 	}
 
-	public void alertGazed()
+    public void alertGazed()
 	{
 		this.gazedAt = true;
 	}
