@@ -10,7 +10,7 @@ public class Robot : MonoBehaviour
 	public float arriveThreshold = 0.05f;
     public bool isAttacking;
     public float minimumForceToDestroy = 100;
-    public float minimumForceToStun = 15;
+    public float minimumForceToStun = 10;
 
 	private RobotStrategy _robotStrategy;
 
