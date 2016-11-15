@@ -12,7 +12,7 @@ namespace RobotStuff
 
 		public override void Start()
 		{
-			_followRange = 25.0f;
+			_followRange = 15.0f;
 			_arriveThreshold = 0.05f;
 			_followSpeed = 2.0f;
 
