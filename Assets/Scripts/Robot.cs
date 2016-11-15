@@ -70,6 +70,7 @@ public class Robot : MonoBehaviour
         }
         else if (!isDefeated && isReeling)
         {
+            isAttacking = false;
             if(inContactWithSomething)
                 timeSpentReeling += Time.deltaTime; //only recovers from stun when on something
             if (timeSpentReeling >= timeToSpendReeling)
@@ -107,6 +108,8 @@ public class Robot : MonoBehaviour
 
         //if (defeatTrigger && !isDefeated) // makes robot fall apart from inspector on command
             {
+                isAttacking = false;
+                GetComponent<NavMeshAgent>().enabled = false;
                 mAnimator.SetBool("isAttacking", false);
                 mAnimator.Stop();
 
@@ -114,9 +117,11 @@ public class Robot : MonoBehaviour
                 fallApart(null);
             }
             */
-            //if above block is uncommented, change below line to 'else if'
+        //if above block is uncommented, change below line to 'else if'
         if (isDefeated)
+        {
             disappearTimer += Time.deltaTime;
+        }
         if (disappearTimer > defeatDisappearanceDelayTime)
         {
             // shrinks from view until invisible, then removes game object
@@ -148,10 +153,7 @@ public class Robot : MonoBehaviour
         foreach (SphereCollider s in spheres)
             if (s.gameObject.tag == "Damaging Component")
             {
-                Collider[] objectColliders = s.gameObject.GetComponents<Collider>();
-                foreach (Collider c in objectColliders)
-                    c.enabled = true;
-                s.enabled = false; // removes player-damaging hitbox, leaving collider for physics interactions
+                Destroy(s.gameObject); // removes player-damaging hitboxes
             }
 
         // deactivates universal collider to allow children to handle themselves
@@ -242,10 +244,10 @@ public class Robot : MonoBehaviour
             safeContactOccurred = false;
             if (!isDefeated)
             {
-                {
-                    mAnimator.SetBool("isAttacking", false);
-                    mAnimator.Stop();
-                }
+                isAttacking = false;
+                GetComponent<NavMeshAgent>().enabled = false;
+                mAnimator.SetBool("isAttacking", false);
+                mAnimator.Stop();
 
                 isDefeated = true;
                 Destroy(dizzyEffect);
@@ -271,7 +273,7 @@ public class Robot : MonoBehaviour
                 foreach (ContactPoint p in col.contacts)
                     rb.AddForceAtPosition(col.impulse, p.point);
                 isReeling = true;
-
+                isAttacking = false;
                 mAnimator.SetBool("isAttacking", false);
 
                 mAnimator.SetBool("isStunned", true);
