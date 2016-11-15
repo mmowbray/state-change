@@ -22,7 +22,7 @@ public class HoloAim : MonoBehaviour
 	private float charge;
 	private bool ignoreMouse0KeyUp; // this was needed to ignore the mouse up when it was used to delete blocks
 	private bool chargeMassGun = true;
-	private bool isPuzzleMode = false;
+	private bool isPuzzleMode = true;
 	private int numBlocks;
 
 	private List<GameObject> blocksList;

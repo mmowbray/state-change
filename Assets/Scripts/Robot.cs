@@ -31,6 +31,11 @@ public class Robot : MonoBehaviour
     private Animator mAnimator;
     private System.Collections.Generic.List<Transform> pieces;// for falling apart and removal of body parts after
 
+    [SerializeField] AudioSource destroySound;
+    bool alreadyDestroyed = false;
+    [SerializeField] AudioSource errorNoise;
+    [SerializeField] AudioSource sawNoise;
+
     // Use this for initialization
     void Start() 
 	{
@@ -47,6 +52,7 @@ public class Robot : MonoBehaviour
             {
                 if (isAttacking) // currently only set in inspector, needs to be switched on/off by navigation logic when in attack range
                 {
+                    sawNoise.Play();
                     GetComponent<NavMeshAgent>().enabled = false;
                     mAnimator.SetBool("isAttacking", true);
                     Collider[] cols = GetComponentsInChildren<Collider>();
@@ -121,6 +127,11 @@ public class Robot : MonoBehaviour
         if (isDefeated)
         {
             disappearTimer += Time.deltaTime;
+            if (!destroySound.isPlaying && !alreadyDestroyed)
+            {
+                alreadyDestroyed = true;
+                destroySound.Play();
+            }
         }
         if (disappearTimer > defeatDisappearanceDelayTime)
         {
@@ -275,7 +286,7 @@ public class Robot : MonoBehaviour
                 isReeling = true;
                 isAttacking = false;
                 mAnimator.SetBool("isAttacking", false);
-
+                errorNoise.Play();
                 mAnimator.SetBool("isStunned", true);
                 mAnimator.applyRootMotion = true;
                 timeSpentReeling -= 0;
