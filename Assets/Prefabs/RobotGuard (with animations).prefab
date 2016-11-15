@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1000013187065366}
   m_IsPrefabParent: 1
+--- !u!1 &1000010137958868
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000012087865854}
+  - 135: {fileID: 135000014249583638}
+  m_Layer: 9
+  m_Name: HitBox
+  m_TagString: Damaging Component
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000010218796430
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,11 +133,10 @@ GameObject:
   - 33: {fileID: 33000014181221216}
   - 23: {fileID: 23000013999131976}
   - 54: {fileID: 54000011142067068}
-  - 135: {fileID: 135000012863606676}
-  - 65: {fileID: 65000012554776400}
+  - 65: {fileID: 65000012898382328}
   m_Layer: 9
   m_Name: Cube.001
-  m_TagString: Damaging Component
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +315,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000012988371400}
   m_RootOrder: 0
+--- !u!4 &4000012087865854
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010137958868}
+  m_LocalRotation: {x: 0.106214404, y: -0.5534927, z: -0.4303599, w: 0.705092}
+  m_LocalPosition: {x: -0.03418218, y: -0.041432366, z: -0.050410762}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: -19.016, y: -67.531006, z: 12541.325}
+  m_Children: []
+  m_Father: {fileID: 4000013375833422}
+  m_RootOrder: 3
 --- !u!4 &4000012165630888
 Transform:
   m_ObjectHideFlags: 1
@@ -383,6 +411,7 @@ Transform:
   - {fileID: 4000013716727648}
   - {fileID: 4000010562160058}
   - {fileID: 4000013520417666}
+  - {fileID: 4000012087865854}
   m_Father: {fileID: 4000012165630888}
   m_RootOrder: 1
 --- !u!4 &4000013520417666
@@ -1117,7 +1146,7 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300002, guid: 1246c6cca91b15647b7e79f84648304f, type: 3}
---- !u!65 &65000012554776400
+--- !u!65 &65000012898382328
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1128,7 +1157,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.029231371, y: 0.02923137, z: 0.02923143}
-  m_Center: {x: 0, y: 0.000000007450581, z: 0.00000011920929}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000013307332584
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1153,7 +1182,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 4537b1d508912924aab2f1f60391142e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1171,8 +1200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   robotStrategyName: RobotStrategyC
   target: {fileID: 0}
-  followRange: 3
-  arriveThreshold: 0.05
+  followRange: 15
+  arriveThreshold: 7
   isAttacking: 0
   minimumForceToDestroy: 100
   minimumForceToStun: 10
@@ -1204,18 +1233,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.010000001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &135000012863606676
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012039505516}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.017830927
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135000012973618610
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1228,6 +1245,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.009999999
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135000014249583638
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010137958868}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.048551783
+  m_Center: {x: 0, y: -0.02, z: 0}
 --- !u!136 &136000010697174754
 CapsuleCollider:
   m_ObjectHideFlags: 1

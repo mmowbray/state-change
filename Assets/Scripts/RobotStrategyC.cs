@@ -55,14 +55,20 @@ namespace RobotStuff
 //					dir.y = 0;
 //					_myGameObject.transform.Translate(dir * _followSpeed * Time.deltaTime, Space.World);
 
-					_myNavMeshAgent.SetDestination(_target.position);
+                    if(!_myGameObject.GetComponent<Robot>().isAttacking && _myNavMeshAgent.isActiveAndEnabled)
+					    _myNavMeshAgent.SetDestination(_target.position);
+
+                    _myGameObject.GetComponent<Robot>().isAttacking = false;
+                }
+				else
+				{
+                    //					Vector3 tarPos = _target.transform.position;
+                    //					tarPos.y = 0;
+                    //					_myGameObject.transform.position = tarPos;
+                    if(_myNavMeshAgent.isActiveAndEnabled)
+                        _myNavMeshAgent.SetDestination(_myGameObject.transform.position);
+                    _myGameObject.GetComponent<Robot>().isAttacking = true;
 				}
-//				else
-//				{
-//					Vector3 tarPos = _target.transform.position;
-//					tarPos.y = 0;
-//					_myGameObject.transform.position = tarPos;
-//				}
 			}
 
 		}

@@ -14,7 +14,7 @@ namespace RobotStuff
 		protected bool _touching = false;
 
 		protected float _followRange = 15;
-		protected float _arriveThreshold;
+		protected float _arriveThreshold = 7;
 		protected float _followSpeed;
 
 		public RobotStrategy (GameObject gameObject, Transform target)
