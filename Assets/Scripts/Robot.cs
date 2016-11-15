@@ -18,10 +18,10 @@ public class Robot : MonoBehaviour
     private bool isDefeated = false;
     private float disappearTimer = 0;
     public float defeatDisappearanceDelayTime = 5;
-    private bool isReeling = false;
+    public bool isReeling = false;
     private float timeSpentReeling = 0;
     private float timeToSpendReeling;
-    private float startingYPos;
+    private float startingYPos = 0;
     private bool inContactWithSomething = false;
     private bool safeContactOccurred = false;
 
@@ -36,7 +36,6 @@ public class Robot : MonoBehaviour
 	{
 		this.SetRobotStrategy(robotStrategyName);
         mAnimator = GetComponent<Animator>();
-        startingYPos = transform.position.y;
     }
 
     // Update is called once per frame
@@ -72,18 +71,21 @@ public class Robot : MonoBehaviour
             if (timeSpentReeling >= timeToSpendReeling)
             {
                 Destroy(dizzyEffect);
-                
-                transform.up = Vector3.MoveTowards(transform.up, Vector3.up, 0.1f);
-
                 Rigidbody rb = GetComponent<Rigidbody>();
+                rb.isKinematic = true;
+                rb.useGravity = false;
 
+                transform.up = Vector3.MoveTowards(transform.up, Vector3.up, 0.1f);
+                
+                
                 // *** below might cause issues when robot is knocked onto another floor, fine if room is flat
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, startingYPos, transform.position.z), 0.1f);
 
-                if (Mathf.Approximately(transform.rotation.eulerAngles.x, 0) && Mathf.Approximately(transform.rotation.eulerAngles.z, 0) && Mathf.Approximately(transform.position.y,startingYPos))
+                if (Mathf.Approximately(transform.rotation.eulerAngles.x, 0) && Mathf.Approximately(transform.rotation.eulerAngles.z, 0) && Mathf.Abs(transform.position.y - startingYPos) <= 0.5f)
                 {
-                    rb.isKinematic = true;
-                    rb.useGravity = false;
+                    mAnimator.applyRootMotion = false;
+                    GetComponent<NavMeshAgent>().enabled = true;
+                    startingYPos = 0;
                     isReeling = false;
                     CorrectPosture();
 
@@ -195,7 +197,7 @@ public class Robot : MonoBehaviour
     void OnCollisionStay(Collision col)
     {
         inContactWithSomething = true;
-        if (col.gameObject.tag == "Block" && safeContactOccurred)
+        if (col.gameObject.tag == "Block" && !isReeling && safeContactOccurred)
         {
             Block block = col.gameObject.GetComponent<Block>(); // knocked over temporarily
             if (block == null)
@@ -215,7 +217,7 @@ public class Robot : MonoBehaviour
     void OnCollisionExit(Collision col)
     {
         inContactWithSomething = false;
-        if (col.gameObject.tag == "Block" && safeContactOccurred)
+        if (col.gameObject.tag == "Block" && !isReeling && safeContactOccurred)
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
@@ -255,6 +257,9 @@ public class Robot : MonoBehaviour
                 block = col.gameObject.GetComponentInChildren<Block>(); //sometimes collision registers with parent StretchableBlock and not Block
             if (block != null && block.IsExpanding == true)
             {
+                if (Mathf.Approximately(startingYPos,0))
+                    startingYPos = transform.position.y;
+                GetComponent<NavMeshAgent>().enabled = false;
                 Rigidbody rb = GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.useGravity = true;
@@ -266,6 +271,7 @@ public class Robot : MonoBehaviour
                 mAnimator.SetBool("isAttacking", false);
 
                 mAnimator.SetBool("isStunned", true);
+                mAnimator.applyRootMotion = true;
                 timeSpentReeling -= 0;
                 if (timeToSpendReeling < (col.impulse.magnitude / 100) * 2)
                     timeToSpendReeling = (col.impulse.magnitude / 100) * 2;
