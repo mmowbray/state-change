@@ -47,6 +47,7 @@ public class Robot : MonoBehaviour
             {
                 if (isAttacking) // currently only set in inspector, needs to be switched on/off by navigation logic when in attack range
                 {
+                    GetComponent<NavMeshAgent>().enabled = false;
                     mAnimator.SetBool("isAttacking", true);
                     Collider[] cols = GetComponentsInChildren<Collider>();
                     foreach (Collider col in cols)
@@ -55,7 +56,10 @@ public class Robot : MonoBehaviour
                 }
                 else
                 {
-                    mAnimator.SetBool("isAttacking", false);
+                    if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standard Pose"))
+                        mAnimator.applyRootMotion = true;
+                    else
+                        mAnimator.SetBool("isAttacking", false);
                     Collider[] cols = GetComponentsInChildren<Collider>();
                     foreach (Collider col in cols)
                         if (col.gameObject.tag == "Damaging Component")
@@ -296,6 +300,12 @@ public class Robot : MonoBehaviour
                 Debug.Log(gameObject.name + " is being pushed gently.");
             }
         }
+    }
+
+    public void reenableNavMeshAgent()
+    {
+        GetComponent<NavMeshAgent>().enabled = true;
+        isAttacking = false;
     }
     /*
 void OnTriggerEnter(Collider col)

@@ -118,7 +118,7 @@ GameObject:
   - 23: {fileID: 23000013999131976}
   - 54: {fileID: 54000011142067068}
   - 135: {fileID: 135000012863606676}
-  - 65: {fileID: 65000012554776400}
+  - 65: {fileID: 65000012898382328}
   m_Layer: 9
   m_Name: Cube.001
   m_TagString: Damaging Component
@@ -1117,7 +1117,7 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300002, guid: 1246c6cca91b15647b7e79f84648304f, type: 3}
---- !u!65 &65000012554776400
+--- !u!65 &65000012898382328
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1128,7 +1128,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.029231371, y: 0.02923137, z: 0.02923143}
-  m_Center: {x: 0, y: 0.000000007450581, z: 0.00000011920929}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000013307332584
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1153,7 +1153,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 4537b1d508912924aab2f1f60391142e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1171,8 +1171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   robotStrategyName: RobotStrategyC
   target: {fileID: 0}
-  followRange: 3
-  arriveThreshold: 0.05
+  followRange: 15
+  arriveThreshold: 7
   isAttacking: 0
   minimumForceToDestroy: 100
   minimumForceToStun: 10
@@ -1211,11 +1211,11 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012039505516}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.017830927
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.056203574
+  m_Center: {x: 0, y: -0.03, z: 0}
 --- !u!135 &135000012973618610
 SphereCollider:
   m_ObjectHideFlags: 1
