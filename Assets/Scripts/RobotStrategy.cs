@@ -13,7 +13,7 @@ namespace RobotStuff
 		protected bool _follow = false;
 		protected bool _touching = false;
 
-		protected float _followRange;
+		protected float _followRange = 15;
 		protected float _arriveThreshold;
 		protected float _followSpeed;
 
