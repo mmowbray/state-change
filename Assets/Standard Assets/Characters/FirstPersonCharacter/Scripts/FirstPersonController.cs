@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -28,6 +29,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        [SerializeField] private AudioSource gameOverSound;
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -41,6 +44,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+        //private BackgroundMusic music;
 
         // Use this for initialization
         private void Start()
@@ -55,6 +59,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+            //music = GameObject.FindGameObjectWithTag("MusicPlayer").GetComponent<BackgroundMusic>();
         }
 
 
@@ -263,7 +268,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 //death happens idk
                 Debug.Log("u ded :(");
-
+                gameOverSound.Play();
+                SceneManager.LoadScene("Level1", LoadSceneMode.Single);
                 //Destroy(gameObject); 
                 // ^^^ uncomment for a chuckle 
                 // needs proper functionality

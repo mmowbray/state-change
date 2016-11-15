@@ -13,6 +13,8 @@ public class OpenDoor : MonoBehaviour
     public bool battleDoor; //when a battleDoor opens the music changes to battle music
     private BackgroundMusic music;
 
+    [SerializeField] private AudioSource doorSound;
+
     // Use this for initialization
     void Start ()
     {
@@ -32,9 +34,13 @@ public class OpenDoor : MonoBehaviour
                 music.playBattleMusic();
             else
                 music.playPuzzleMusic();
+            doorSound.Play();
         }
         else
+        {
             open = false;
+            doorSound.Play();
+        }
 
         if (open && transform.position.y <= openHeight)
             transform.Translate(new Vector3(0.0f, 1.0f * moveSpeed * Time.deltaTime, 0.0f));
