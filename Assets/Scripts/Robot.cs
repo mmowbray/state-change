@@ -184,7 +184,7 @@ public class Robot : MonoBehaviour
 				this._robotStrategy = new RobotStrategyB(gameObject, target);
 				break;	
 			default :
-				this._robotStrategy = new RobotStrategyA(gameObject, target);
+				this._robotStrategy = new RobotStrategyC(gameObject, target);
 				break;	
 		}
     }
