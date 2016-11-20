@@ -56,8 +56,8 @@ public class HoloAim : MonoBehaviour
 
 		if (Physics.Raycast (transform.position, aimer.transform.forward, out hit)) { //there was a collision with something in the scene
 
-
-			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
+			//update block growth if charge > 0 or we are looking at an extrudable wall
+			if (charge > 0 || hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
 				
 				if (isPuzzleMode) {
