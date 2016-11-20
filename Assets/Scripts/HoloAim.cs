@@ -21,7 +21,6 @@ public class HoloAim : MonoBehaviour
 
 	private float charge;
 	private bool ignoreMouse0KeyUp; // this was needed to ignore the mouse up when it was used to delete blocks
-	private bool chargeMassGun = true;
 	private bool isPuzzleMode = true;
 	private int numBlocks;
 
@@ -61,25 +60,28 @@ public class HoloAim : MonoBehaviour
 			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
 				
-				if (isPuzzleMode == false) {
+				if (isPuzzleMode) {
+					holoBlock.transform.localScale = new Vector3 (1.0f, m_FixedLength, 1.0f);
+				} else{
 					ChargeGun ();
 					holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
-				} else {
-					holoBlock.transform.localScale = new Vector3 (1.0f,m_FixedLength , 1.0f);
 				}
-				holoBlock.transform.position = hit.point;
-				holoBlock.transform.rotation = hit.transform.gameObject.transform.rotation;
+
+				//keep the position and rotation fixed when we begin charging
+				if (charge == 0) {
+					holoBlock.transform.position = hit.point;
+					holoBlock.transform.rotation = hit.transform.gameObject.transform.rotation;
+				}
 			}
 			else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("MassBlock"))
 			{
 				var gazedAtBlock = hit.transform.gameObject.GetComponentInChildren<Block> ();
-				if (gazedAtBlock) {
+				if (gazedAtBlock && charge == 0) { //we are looking at a block and we are not currently charging up
 					if (Input.GetKeyDown (KeyCode.Mouse0)) {
 						GameObject blockToDelete = gazedAtBlock.gameObject.transform.parent.gameObject;
 						blocksList.Remove (blockToDelete);
 						Destroy (blockToDelete);
                         ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
-						chargeMassGun = false;
 						numBlocks = blocksList.Count; // decrement the number of blocks on the scene when it is destroyed
 						SetBlockText();
 						charge = 0; //reset the charge
