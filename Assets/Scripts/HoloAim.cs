@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using UnityStandardAssets.CrossPlatformInput;
 public class HoloAim : MonoBehaviour
 {
 	[SerializeField] private float m_ScaleSpeed;
@@ -77,7 +77,7 @@ public class HoloAim : MonoBehaviour
 			{
 				var gazedAtBlock = hit.transform.gameObject.GetComponentInChildren<Block> ();
 				if (gazedAtBlock && charge == 0) { //we are looking at a block and we are not currently charging up
-					if (Input.GetKeyDown (KeyCode.Mouse0)) {
+					if (CrossPlatformInputManager.GetButtonDown("Fire1")) {
 						GameObject blockToDelete = gazedAtBlock.gameObject.transform.parent.gameObject;
 						blocksList.Remove (blockToDelete);
 						Destroy (blockToDelete);
@@ -109,7 +109,7 @@ public class HoloAim : MonoBehaviour
 	}
 
 	void DeleteAllBlocks(){
-		if (Input.GetKeyDown (KeyCode.K)) {
+		if (CrossPlatformInputManager.GetButtonDown("DeleteAllBlocks")) {
 			int totalBlocks = blocksList.Count;
 			for(int x = 0; x < totalBlocks; x++){
 				GameObject blockToDestroy = blocksList [0];
@@ -124,7 +124,7 @@ public class HoloAim : MonoBehaviour
 	}
 
 	void DeletePreviousBlock(){
-		if (Input.GetKeyDown (KeyCode.J)) {
+		if (CrossPlatformInputManager.GetButtonDown("DeletePreviousBlock")) {
 			GameObject blockToDestroy = blocksList [0];
 			if (blocksList.Remove (blockToDestroy)) { // if block was found and removed
 				Destroy (blockToDestroy);
@@ -137,7 +137,7 @@ public class HoloAim : MonoBehaviour
 
 	void createBlock(){
 		
-		if (Input.GetKeyUp (KeyCode.Mouse0) && numBlocks < blockLimit && ignoreMouse0KeyUp == false) {
+		if (CrossPlatformInputManager.GetButtonUp("Fire1") && numBlocks < blockLimit && ignoreMouse0KeyUp == false) {
 
 			GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 			newBlock.transform.localScale = holoBlock.transform.localScale;
@@ -148,7 +148,7 @@ public class HoloAim : MonoBehaviour
 			chargeEffects.Stop ();
             chargeSound.Stop();
             shootSound.Play();
-		}else if (Input.GetKeyUp (KeyCode.Mouse0)) {
+		}else if (CrossPlatformInputManager.GetButtonUp("Fire1")) {
 			ignoreMouse0KeyUp = false;
 		}
 
@@ -156,7 +156,7 @@ public class HoloAim : MonoBehaviour
 
 	void ChargeGun(){
 
-		if (Input.GetKey (KeyCode.Mouse0) && ignoreMouse0KeyUp == false && numBlocks < blockLimit) {
+		if (CrossPlatformInputManager.GetButton("Fire1") && ignoreMouse0KeyUp == false && numBlocks < blockLimit) {
 			charge += Time.fixedDeltaTime;
 
 			if (Input.GetKey (KeyCode.Mouse1)) {
@@ -172,7 +172,7 @@ public class HoloAim : MonoBehaviour
 	}
 
 	void GunMode (){
-		if (Input.GetKeyDown (KeyCode.Q)) {
+		if (CrossPlatformInputManager.GetButtonDown("GunMode")) {
 			isPuzzleMode = !isPuzzleMode;
             switchSound.Play();
         }
