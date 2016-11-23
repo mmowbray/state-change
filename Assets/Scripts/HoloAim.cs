@@ -17,13 +17,13 @@ public class HoloAim : MonoBehaviour
     private GameObject highlightedBlock;
 	private ParticleSystem chargeEffects;
 	private RaycastHit hit; //where the intersection is in world coords
+	private RaycastHit frontOfHitGameObject;
 	private bool targetting;
 
 	private float charge;
 	private bool ignoreMouse0KeyUp; // this was needed to ignore the mouse up when it was used to delete blocks
 	private bool isPuzzleMode = true;
 	private int numBlocks;
-
 	private List<GameObject> blocksList;
 
     [SerializeField] private AudioSource shootSound;
@@ -59,12 +59,17 @@ public class HoloAim : MonoBehaviour
 			//update block growth if charge > 0 or we are looking at an extrudable wall
 			if (charge > 0 || hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
-				
+				Physics.Raycast (hit.point, hit.normal, out frontOfHitGameObject); // find object in front of the "hit" object
+				float blockMaxYScale = frontOfHitGameObject != null? frontOfHitGameObject.distance: float.MaxValue; // in case nothing is found in front of the "hit" object, set blockMaxYValue to float.MaxValue. in other words, the scale will have no limit
+				float blockYScale;
 				if (isPuzzleMode) {
-					holoBlock.transform.localScale = new Vector3 (1.0f, m_FixedLength, 1.0f);
+					blockYScale = m_FixedLength > blockMaxYScale? blockMaxYScale : m_FixedLength;
+					holoBlock.transform.localScale = new Vector3 (1.0f, blockYScale, 1.0f);
+
 				} else{
-					ChargeGun ();
-					holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, 1.0f + charge * m_ScaleSpeed, 1.0f) : Vector3.one;
+					ChargeGun (); // get charge value
+					blockYScale = (1.0f + (charge * m_ScaleSpeed)) > blockMaxYScale ? blockMaxYScale : (1.0f + (charge * m_ScaleSpeed)) ; // make sure the block length doesn't exceed the limit
+					holoBlock.transform.localScale = charge > 0 ? new Vector3 (1.0f, blockYScale, 1.0f) : Vector3.one;
 				}
 
 				//keep the position and rotation fixed when we begin charging
