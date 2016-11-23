@@ -7,7 +7,8 @@ public class HoloAim : MonoBehaviour
 {
 	[SerializeField] private float m_ScaleSpeed;
 	[SerializeField] float m_FixedLength;
-	[SerializeField] int blockLimit;
+	[SerializeField] int blockQuantityLimit;
+	[SerializeField] float maxChargeLimit;
 
     public GameObject holoBlock;
     public GameObject realBlock;
@@ -60,7 +61,7 @@ public class HoloAim : MonoBehaviour
 			if (charge > 0 || hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
 				Physics.Raycast (hit.point, hit.normal, out frontOfHitGameObject); // find object in front of the "hit" object
-				float blockMaxYScale = frontOfHitGameObject != null? frontOfHitGameObject.distance: float.MaxValue; // in case nothing is found in front of the "hit" object, set blockMaxYValue to float.MaxValue. in other words, the scale will have no limit
+				float blockMaxYScale = frontOfHitGameObject.transform != null? frontOfHitGameObject.distance: maxChargeLimit; // in case nothing is found in front of the "hit" object, set blockMaxYValue to float.MaxValue. in other words, the scale will have no limit
 				float blockYScale;
 				if (isPuzzleMode) {
 					blockYScale = m_FixedLength > blockMaxYScale? blockMaxYScale : m_FixedLength;
@@ -142,7 +143,7 @@ public class HoloAim : MonoBehaviour
 
 	void createBlock(){
 		
-		if (CrossPlatformInputManager.GetButtonUp("Fire1") && numBlocks < blockLimit && ignoreMouse0KeyUp == false) {
+		if (CrossPlatformInputManager.GetButtonUp("Fire1") && numBlocks < blockQuantityLimit && ignoreMouse0KeyUp == false) {
 
 			GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 			newBlock.transform.localScale = holoBlock.transform.localScale;
@@ -161,7 +162,7 @@ public class HoloAim : MonoBehaviour
 
 	void ChargeGun(){
 
-		if (CrossPlatformInputManager.GetButton("Fire1") && ignoreMouse0KeyUp == false && numBlocks < blockLimit) {
+		if (CrossPlatformInputManager.GetButton("Fire1") && ignoreMouse0KeyUp == false && numBlocks < blockQuantityLimit) {
 			charge += Time.fixedDeltaTime;
 
 			if (Input.GetKey (KeyCode.Mouse1)) {
@@ -185,7 +186,7 @@ public class HoloAim : MonoBehaviour
 
 	void SetBlockText()
 	{
-		counterText.text = "Block Limit: " + blockLimit.ToString() + "\n" + "Number of Blocks on Scene: " + numBlocks.ToString();
+		counterText.text = "Block Limit: " + blockQuantityLimit.ToString() + "\n" + "Number of Blocks on Scene: " + numBlocks.ToString();
 
 	}
 
