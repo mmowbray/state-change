@@ -22,7 +22,6 @@ public class HoloAim : MonoBehaviour
 	private bool targetting;
 
 	private float charge;
-	private bool ignoreMouse0KeyUp; // this was needed to ignore the mouse up when it was used to delete blocks
 	private bool isPuzzleMode = true;
 	private int numBlocks;
 	private List<GameObject> blocksList;
@@ -95,7 +94,6 @@ public class HoloAim : MonoBehaviour
 						GameObject blockToDelete = gazedAtBlock.gameObject.transform.parent.gameObject;
 						blocksList.Remove (blockToDelete);
 						Destroy (blockToDelete);
-                        ignoreMouse0KeyUp = true; // ignore one Mouse0 KeyUp event. This is to prevent block creation
 						numBlocks = blocksList.Count; // decrement the number of blocks on the scene when it is destroyed
 						SetBlockText();
 						charge = 0; //reset the charge
@@ -151,7 +149,7 @@ public class HoloAim : MonoBehaviour
 
 	void createBlock(){
 		
-		if (CrossPlatformInputManager.GetButtonUp("Fire1") && numBlocks < blockQuantityLimit && ignoreMouse0KeyUp == false) {
+		if (CrossPlatformInputManager.GetButtonUp("Fire1") && numBlocks < blockQuantityLimit) {
 
 			GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 			newBlock.transform.localScale = holoBlock.transform.localScale;
@@ -163,19 +161,17 @@ public class HoloAim : MonoBehaviour
 			chargeEffects.Stop ();
             chargeSound.Stop();
             shootSound.Play();
-		}else if (CrossPlatformInputManager.GetButtonUp("Fire1")) {
-			ignoreMouse0KeyUp = false;
 		}
 
 	}
 
 	void ChargeGun(){
 
-		if (CrossPlatformInputManager.GetButton("Fire1") && ignoreMouse0KeyUp == false && numBlocks < blockQuantityLimit) {
+		if (CrossPlatformInputManager.GetButton("Fire1")  && numBlocks < blockQuantityLimit) {
 			charge += Time.fixedDeltaTime;
 
 			if (Input.GetKey (KeyCode.Mouse1)) {
-				//charge = 0f;
+				charge = 0f;
 			}
 
 			if (!chargeEffects.isPlaying) {
