@@ -8,7 +8,7 @@ public class HoloAim : MonoBehaviour
 	[SerializeField] private float m_ScaleSpeed;
 	[SerializeField] float m_FixedLength;
 	[SerializeField] int blockQuantityLimit;
-	[SerializeField] float maxChargeLimit;
+	[SerializeField] float maxBlockLength;
 
     public GameObject holoBlock;
     public GameObject realBlock;
@@ -18,7 +18,7 @@ public class HoloAim : MonoBehaviour
     private GameObject highlightedBlock;
 	private ParticleSystem chargeEffects;
 	private RaycastHit hit; //where the intersection is in world coords
-	private RaycastHit frontOfHitGameObject;
+	private RaycastHit frontOfHit;
 	private bool targetting;
 
 	private float charge;
@@ -55,13 +55,21 @@ public class HoloAim : MonoBehaviour
 
 		holoBlock.SetActive (targetting);
 
-		if (Physics.Raycast (transform.parent.position, transform.parent.forward, out hit)) { //there was a collision with something in the scene
+		/*
+		 * Only update the raycast objects if the Fire1 button is not pressed or being released
+		 **/
+		if (CrossPlatformInputManager.GetButton ("Fire1") == false && CrossPlatformInputManager.GetButtonUp ("Fire1") == false) {
+			Physics.Raycast (transform.parent.position, transform.parent.forward, out hit); // find object where the player is looking at
+			Physics.Raycast (hit.point, hit.normal, out frontOfHit); // find object in front of the "hit" object. This will be used to limit the block length
+		}
+
+		if (hit.transform != null) { //there was a collision with something in the scene
 
 			//update block growth if charge > 0 or we are looking at an extrudable wall
 			if (charge > 0 || hit.transform.gameObject.layer == LayerMask.NameToLayer("Changeable")) //raycast intersected an extrudable wall
 			{
-				Physics.Raycast (hit.point, hit.normal, out frontOfHitGameObject); // find object in front of the "hit" object
-				float blockMaxYScale = frontOfHitGameObject.transform != null? frontOfHitGameObject.distance: maxChargeLimit; // in case nothing is found in front of the "hit" object, set blockMaxYValue to float.MaxValue. in other words, the scale will have no limit
+				//Physics.Raycast (hit.point, hit.normal, out frontOfHitGameObject); 
+				float blockMaxYScale = frontOfHit.transform != null? frontOfHit.distance: maxBlockLength; // in case nothing is found in front of the "hit" object, set blockMaxYValue to maxBlockLength. 
 				float blockYScale;
 				if (isPuzzleMode) {
 					blockYScale = m_FixedLength > blockMaxYScale? blockMaxYScale : m_FixedLength;
@@ -148,6 +156,7 @@ public class HoloAim : MonoBehaviour
 			GameObject newBlock = Instantiate (realBlock, holoBlock.transform.position, holoBlock.transform.rotation) as GameObject;
 			newBlock.transform.localScale = holoBlock.transform.localScale;
 			blocksList.Add (newBlock);
+			Debug.Log (charge);
 			charge = 0; //reset the charge
 			numBlocks = blocksList.Count;
 			SetBlockText();
@@ -166,7 +175,7 @@ public class HoloAim : MonoBehaviour
 			charge += Time.fixedDeltaTime;
 
 			if (Input.GetKey (KeyCode.Mouse1)) {
-				charge = 0f;
+				//charge = 0f;
 			}
 
 			if (!chargeEffects.isPlaying) {

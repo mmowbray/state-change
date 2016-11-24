@@ -465,8 +465,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013639278200}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.07889367, y: 0, z: 0, w: 0.9968831}
+  m_LocalPosition: {x: 0.03287528, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -598,7 +598,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012983869136}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.020791464, y: 0.7055726, z: 0.7055726, w: -0.06246838}
   m_LocalPosition: {x: 0.51, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1071,7 +1071,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -1470,7 +1470,7 @@ MonoBehaviour:
   m_ScaleSpeed: 10
   m_FixedLength: 7
   blockQuantityLimit: 5
-  maxChargeLimit: 40
+  maxChargeLimit: 100
   holoBlock: {fileID: 0}
   realBlock: {fileID: 1000010974615740, guid: 4c4df6f2b61eb473ba7af5de8925409b, type: 2}
   aimer: {fileID: 1000013639278200}
@@ -1570,8 +1570,8 @@ MonoBehaviour:
     BobAmount: 0.1
   m_StepInterval: 5
   m_FootstepSounds:
-  - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
+  - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
   gameOverSound: {fileID: 82000014287942296}
@@ -3375,7 +3375,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 660670125
+  randomSeed: 108820825
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -5059,7 +5059,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 796720666
+  randomSeed: -1482982013
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -6793,7 +6793,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 1527632074
+  randomSeed: 1456652482
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -10211,7 +10211,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: -2123089717
+  randomSeed: -1580958349
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -13649,7 +13649,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 1227918033
+  randomSeed: 920599195
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -15368,7 +15368,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 2089715901
+  randomSeed: 1255419558
   InitialModule:
     serializedVersion: 2
     enabled: 1
