@@ -5,6 +5,7 @@ State Change is a 3D first-person puzzle platform
 ![alt tag](https://github.com/mmowbray/state-change/blob/master/Screenshots/screenshot3.png)
 
 **Keyboard and Mouse Controls**
+
 1. Move 			     : A W S D Keys
 2. Look around			 : Move mouse
 3. Jump 				 : Spacebar
@@ -16,6 +17,7 @@ State Change is a 3D first-person puzzle platform
 9. Toogle game modes 	 : Q key
 
 **PS3 Controller**
+
 1. Move 				 : Left Joystick
 2. Look around 			 : Right Joystick
 3. Jump 				 : Spacebar
