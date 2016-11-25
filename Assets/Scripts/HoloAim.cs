@@ -10,6 +10,7 @@ public class HoloAim : MonoBehaviour
 	[SerializeField] int blockQuantityLimit;
 	[SerializeField] float maxBlockLength;
 
+
     public GameObject holoBlock;
     public GameObject realBlock;
     public GameObject aimer;
@@ -191,8 +192,7 @@ public class HoloAim : MonoBehaviour
 
 	void SetBlockText()
 	{
-		counterText.text = "Block Limit: " + blockQuantityLimit.ToString() + "\n" + "Number of Blocks on Scene: " + numBlocks.ToString();
-
+		counterText.text = (blockQuantityLimit - numBlocks).ToString();
 	}
 
 }
