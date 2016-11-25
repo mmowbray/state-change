@@ -20,7 +20,7 @@ State Change is a 3D first-person puzzle platform
 
 1. Move 				 : Left Joystick
 2. Look around 			 : Right Joystick
-3. Jump 				 : Spacebar
+3. Jump 				 : X
 4. Create block    		 : L1
 5. Create Long Block 	 : Hold L1 and release
 6. Delete block 	 	 : Aim at the block and press L1
