@@ -9843,7 +9843,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.9
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_LocalPosition.y
@@ -9855,19 +9855,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.9950033
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.0998426
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_RootOrder
@@ -9887,9 +9887,10 @@ Prefab:
       propertyPath: m_Name
       value: FPSController
       objectReference: {fileID: 0}
-    - target: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 168.817
+    - target: {fileID: 114000013044624630, guid: bb00fb5fba1b6d64abfe748ff4a55f73,
+        type: 2}
+      propertyPath: m_RunSpeed
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
