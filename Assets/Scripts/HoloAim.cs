@@ -137,7 +137,7 @@ public class HoloAim : MonoBehaviour
 	}
 
 	void DeletePreviousBlock(){
-		if (CrossPlatformInputManager.GetButtonDown("DeletePreviousBlock")) {
+		if (CrossPlatformInputManager.GetButtonDown("DeletePreviousBlock") && blocksList.Count > 0) {
 			GameObject blockToDestroy = blocksList [0];
 			if (blocksList.Remove (blockToDestroy)) { // if block was found and removed
 				Destroy (blockToDestroy);
