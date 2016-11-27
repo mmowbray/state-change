@@ -30,6 +30,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
         [SerializeField] private AudioSource gameOverSound;
+        [SerializeField] private String currentLevel;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -168,6 +169,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void PlayFootStepAudio()
         {
+            return;
+
             if (!m_CharacterController.isGrounded)
             {
                 return;
@@ -269,7 +272,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //death happens idk
                 Debug.Log("u ded :(");
                 gameOverSound.Play();
-                SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+                SceneManager.LoadScene(currentLevel, LoadSceneMode.Single);
                 //Destroy(gameObject); 
                 // ^^^ uncomment for a chuckle 
                 // needs proper functionality
