@@ -65,10 +65,13 @@ namespace RobotStuff
                     //					Vector3 tarPos = _target.transform.position;
                     //					tarPos.y = 0;
                     //					_myGameObject.transform.position = tarPos;
-                    if(_myNavMeshAgent.isActiveAndEnabled)
+                    if (_myNavMeshAgent.isActiveAndEnabled)
                         _myNavMeshAgent.SetDestination(_myGameObject.transform.position);
-                    _myGameObject.GetComponent<Robot>().isAttacking = true;
-				}
+                    if (Vector3.Angle(_myGameObject.transform.forward, direction) < 45)
+                        _myGameObject.GetComponent<Robot>().isAttacking = true;
+                    else if (_myNavMeshAgent.isActiveAndEnabled)
+                        _myNavMeshAgent.SetDestination(_target.position);
+                }
 			}
 
 		}

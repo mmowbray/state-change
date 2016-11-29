@@ -6,7 +6,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class HoloAim : MonoBehaviour
 {
 	[SerializeField] private float m_ScaleSpeed;
-	[SerializeField] float m_FixedLength;
+	[SerializeField] public float m_FixedLength;
 	[SerializeField] int blockQuantityLimit;
 	[SerializeField] float maxBlockLength;
 

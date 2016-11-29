@@ -1428,8 +1428,8 @@ MonoBehaviour:
   followRange: 15
   arriveThreshold: 7
   isAttacking: 0
-  minimumForceToDestroy: 50
-  minimumForceToStun: 10
+  guaranteedDestroyForce: 1000000
+  blockForce: 30
   defeatDisappearanceDelayTime: 5
   isReeling: 0
   DizzyEffectPrefab: {fileID: 1000013521526638, guid: 74ea7e86f3f640a408bf0af52dd88f99,
