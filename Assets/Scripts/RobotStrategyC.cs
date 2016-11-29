@@ -7,12 +7,12 @@ namespace RobotStuff
 	{
 		public RobotStrategyC(GameObject gameObject, Transform target) : base(gameObject, target)
 		{
-			Debug.Log("New RobotA");
+			Debug.Log("New RobotC");
 		}
 
 		public override void Start()
 		{
-			_followRange = 15.0f;
+			_followRange = 25.0f;
 			_arriveThreshold = 0.05f;
 			_followSpeed = 2.0f;
 
