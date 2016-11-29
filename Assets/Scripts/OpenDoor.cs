@@ -34,12 +34,12 @@ public class OpenDoor : MonoBehaviour
                 music.playBattleMusic();
             else
                 music.playPuzzleMusic();
-            doorSound.Play();
+            //doorSound.Play();
         }
         else
         {
             open = false;
-            doorSound.Play();
+            //doorSound.Play();
         }
 
         if (open && transform.position.y <= openHeight)
