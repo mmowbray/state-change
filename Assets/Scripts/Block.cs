@@ -10,9 +10,11 @@ public class Block : MonoBehaviour {
     {
         get { return isExpanding; }
     }
+    private Animator anim;
 
 	void Start(){
 		gazedAt = false;
+        anim = GetComponent<Animator>();
 	}
 
 	void Update(){
@@ -22,6 +24,25 @@ public class Block : MonoBehaviour {
 		} else {
 			GetComponent<Renderer> ().material.color = Color.red;
 		}
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Expand On Creation") || anim.GetCurrentAnimatorStateInfo(0).IsName("RemovalShrink"))
+        {
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("RemovalShrink"))
+                foreach (SpriteRenderer sp in GetComponentsInChildren<SpriteRenderer>())
+                {
+                    sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 1 - anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                }
+            else if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.75)
+                foreach (SpriteRenderer sp in GetComponentsInChildren<SpriteRenderer>())
+                {
+                    sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, (anim.GetCurrentAnimatorStateInfo(0).normalizedTime - 0.75f) / 0.25f );
+                }
+            else
+                foreach (SpriteRenderer sp in GetComponentsInChildren<SpriteRenderer>())
+                {
+                    sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0);
+                }
+        }
 
 	}
 
@@ -32,6 +53,12 @@ public class Block : MonoBehaviour {
     void finishedExpanding() // called by Animator
     {
         isExpanding = false;
+    }
+
+    void finishedShrinking() // called by Animator
+    {
+        FindObjectOfType<HoloAim>().alertBlockDisappeared(transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
 	void OnCollisionEnter(Collision col){
