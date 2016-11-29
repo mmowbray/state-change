@@ -4,10 +4,11 @@ using RobotStuff;
 
 public class Robot : MonoBehaviour 
 {
-	public string robotStrategyName = "RobotStrategyA";
+	public string robotStrategyName;
 	public Transform target;
-	public float followRange = 3.0f;
-	public float arriveThreshold = 0.05f;
+	public float followRange;
+	public float arriveThreshold;
+	public float followspeed;
     public bool isAttacking;
     public float minimumForceToDestroy = 100;
     public float minimumForceToStun = 10;
@@ -56,20 +57,35 @@ public class Robot : MonoBehaviour
                     GetComponent<NavMeshAgent>().enabled = false;
                     mAnimator.SetBool("isAttacking", true);
                     Collider[] cols = GetComponentsInChildren<Collider>();
-                    foreach (Collider col in cols)
-                        if (col.gameObject.tag == "Damaging Component")
-                            col.enabled = true;
+
+					foreach(Collider col in cols)
+					{
+						if(col.gameObject.tag == "Damaging Component")
+						{
+							col.enabled = true;
+						}
+					}
                 }
                 else
                 {
-                    if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standard Pose"))
-                        mAnimator.applyRootMotion = true;
-                    else
-                        mAnimator.SetBool("isAttacking", false);
+					if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standard Pose"))
+					{
+						mAnimator.applyRootMotion = true;
+					}
+					else
+					{
+						mAnimator.SetBool("isAttacking", false);
+					}
+
                     Collider[] cols = GetComponentsInChildren<Collider>();
-                    foreach (Collider col in cols)
-                        if (col.gameObject.tag == "Damaging Component")
-                            col.enabled = false;
+
+					foreach(Collider col in cols)
+					{
+						if(col.gameObject.tag == "Damaging Component")
+						{
+							col.enabled = false;
+						}
+					}
                 }
 
             }
@@ -78,7 +94,10 @@ public class Robot : MonoBehaviour
         {
             isAttacking = false;
             if(inContactWithSomething)
+			{
                 timeSpentReeling += Time.deltaTime; //only recovers from stun when on something
+			}
+
             if (timeSpentReeling >= timeToSpendReeling)
             {
                 Destroy(dizzyEffect);
@@ -87,7 +106,6 @@ public class Robot : MonoBehaviour
                 rb.useGravity = false;
 
                 transform.up = Vector3.MoveTowards(transform.up, Vector3.up, 0.1f);
-                
                 
                 // *** below might cause issues when robot is knocked onto another floor, fine if room is flat
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, startingYPos, transform.position.z), 0.1f);
@@ -127,6 +145,7 @@ public class Robot : MonoBehaviour
         if (isDefeated)
         {
             disappearTimer += Time.deltaTime;
+
             if (!destroySound.isPlaying && !alreadyDestroyed)
             {
                 alreadyDestroyed = true;
@@ -142,8 +161,11 @@ public class Robot : MonoBehaviour
             {
                 if (piece != null)
                 {
-                    if (piece != transform) // to make sure "this" is deleted last so script can complete first
-                        piece.localScale = Vector3.Scale(piece.localScale, new Vector3(0.9f, 0.9f, 0.9f));
+					if(piece != transform) // to make sure "this" is deleted last so script can complete first
+					{
+						piece.localScale = Vector3.Scale(piece.localScale, new Vector3(0.9f, 0.9f, 0.9f));
+					}
+
                     // Destroys each part's GameObject when sufficiently small. 
                     if (piece.localScale.magnitude < 0.001 || pieces.Count == 1) 
                     {
@@ -158,14 +180,14 @@ public class Robot : MonoBehaviour
 
     private void fallApart(Collision col)
     {
-        
-
         SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>() as SphereCollider[];
-        foreach (SphereCollider s in spheres)
-            if (s.gameObject.tag == "Damaging Component")
-            {
-                Destroy(s.gameObject); // removes player-damaging hitboxes
-            }
+		foreach(SphereCollider s in spheres)
+		{
+			if(s.gameObject.tag == "Damaging Component")
+			{
+				Destroy(s.gameObject); // removes player-damaging hitboxes
+			}
+		}
 
         // deactivates universal collider to allow children to handle themselves
         GetComponent<Collider>().enabled = false;
@@ -176,8 +198,10 @@ public class Robot : MonoBehaviour
         foreach (Transform t in pieces)
         {
             t.parent = null; // detaches from parent, otherwise physics animations look weird
-            if (t.gameObject.GetComponent<SpriteRenderer>() != null)
-                Destroy(t.gameObject);
+			if(t.gameObject.GetComponent<SpriteRenderer>() != null)
+			{
+				Destroy(t.gameObject);
+			}
         }
 
         // Falls apart; physics engine takes over for a few seconds. Update function will eventually destroy object
@@ -185,7 +209,6 @@ public class Robot : MonoBehaviour
         {
             r.isKinematic = false;
             r.useGravity = true;
-            
             r.AddExplosionForce(col != null ? col.impulse.magnitude : 10, col != null ? col.collider.ClosestPointOnBounds(transform.position) : transform.position, 10,0,ForceMode.Impulse);
         }
     }
@@ -201,9 +224,11 @@ public class Robot : MonoBehaviour
 				this._robotStrategy = new RobotStrategyB(gameObject, target);
 				break;	
 			default :
-				this._robotStrategy = new RobotStrategyC(gameObject, target);
+				this._robotStrategy = new RobotStrategyC(gameObject, target, followRange, arriveThreshold, followspeed);
 				break;	
 		}
+
+		this._robotStrategy.Start();
     }
 
     void CorrectPosture()
@@ -217,9 +242,13 @@ public class Robot : MonoBehaviour
         if (col.gameObject.tag == "Block" && !isReeling && safeContactOccurred)
         {
             Block block = col.gameObject.GetComponent<Block>(); // knocked over temporarily
+
             if (block == null)
+			{
                 block = col.gameObject.GetComponentInChildren<Block>(); //sometimes collision registers with parent StretchableBlock and not Block
-            if (block != null && !block.IsExpanding)
+			}
+
+			if (block != null && !block.IsExpanding)
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
                 rb.isKinematic = true;
@@ -234,6 +263,7 @@ public class Robot : MonoBehaviour
     void OnCollisionExit(Collision col)
     {
         inContactWithSomething = false;
+
         if (col.gameObject.tag == "Block" && !isReeling && safeContactOccurred)
         {
             Rigidbody rb = GetComponent<Rigidbody>();
@@ -243,16 +273,17 @@ public class Robot : MonoBehaviour
             CorrectPosture();
             Debug.Log(gameObject.name + " is done being pushed around.");
         }
-
     }
 
     void OnCollisionEnter(Collision col)
     {
         inContactWithSomething = true;
         Debug.Log(col.impulse.magnitude + "N of force\n");
+
         if (col.impulse.magnitude > minimumForceToDestroy) // will always fall apart upon a great enough force (block smash, falling)
         {
             safeContactOccurred = false;
+
             if (!isDefeated)
             {
                 isAttacking = false;
@@ -263,26 +294,35 @@ public class Robot : MonoBehaviour
                 isDefeated = true;
                 Destroy(dizzyEffect);
                 fallApart(col);
-
             }
         }
         else if (col.gameObject.tag == "Block" && col.impulse.magnitude >= minimumForceToStun)
         {
             safeContactOccurred = false;
             Block block = col.gameObject.GetComponent<Block>(); // knocked over temporarily
+
             if (block == null)
+			{
                 block = col.gameObject.GetComponentInChildren<Block>(); //sometimes collision registers with parent StretchableBlock and not Block
-            if (block != null && block.IsExpanding == true)
+			}
+
+			if (block != null && block.IsExpanding == true)
             {
-                if (Mathf.Approximately(startingYPos,0))
-                    startingYPos = transform.position.y;
+				if(Mathf.Approximately(startingYPos, 0))
+				{
+					startingYPos = transform.position.y;
+				}
+
                 GetComponent<NavMeshAgent>().enabled = false;
                 Rigidbody rb = GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.useGravity = true;
 
-                foreach (ContactPoint p in col.contacts)
-                    rb.AddForceAtPosition(col.impulse, p.point);
+				foreach(ContactPoint p in col.contacts)
+				{
+					rb.AddForceAtPosition(col.impulse, p.point);
+				}
+
                 isReeling = true;
                 isAttacking = false;
                 mAnimator.SetBool("isAttacking", false);
@@ -290,11 +330,16 @@ public class Robot : MonoBehaviour
                 mAnimator.SetBool("isStunned", true);
                 mAnimator.applyRootMotion = true;
                 timeSpentReeling -= 0;
-                if (timeToSpendReeling < (col.impulse.magnitude / 100) * 2)
-                    timeToSpendReeling = (col.impulse.magnitude / 100) * 2;
 
-                if (dizzyEffect == null)
-                    dizzyEffect = Instantiate(DizzyEffectPrefab, transform, false) as GameObject;
+				if(timeToSpendReeling < (col.impulse.magnitude / 100) * 2)
+				{
+					timeToSpendReeling = (col.impulse.magnitude / 100) * 2;
+				}
+
+				if(dizzyEffect == null)
+				{
+					dizzyEffect = Instantiate(DizzyEffectPrefab, transform, false) as GameObject;
+				}
 
                 Debug.Log("Knocked out for " + timeToSpendReeling + " seconds");
             }
@@ -302,9 +347,13 @@ public class Robot : MonoBehaviour
         else if (col.gameObject.tag == "Block")
         {
             Block block = col.gameObject.GetComponent<Block>(); // gentle push
+
             if (block == null)
+			{
                 block = col.gameObject.GetComponentInChildren<Block>(); //sometimes collision registers with parent StretchableBlock and not Block
-            if (block != null && block.IsExpanding)
+			}
+
+			if (block != null && block.IsExpanding)
             {
                 safeContactOccurred = true;
                 Rigidbody rb = GetComponent<Rigidbody>();
@@ -320,20 +369,4 @@ public class Robot : MonoBehaviour
         GetComponent<NavMeshAgent>().enabled = true;
         isAttacking = false;
     }
-    /*
-void OnTriggerEnter(Collider col)
-{
-   _robotStrategy.OnTriggerEnter(col);
-}
-
-void OnTriggerStay(Collider col)
-{
-   _robotStrategy.OnTriggerStay(col);
-}
-
-void OnTriggerExit(Collider col)
-{
-   _robotStrategy.OnTriggerExit(col);
-}
-*/
 }
