@@ -1020,7 +1020,7 @@ Prefab:
         type: 2}
       propertyPath: target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 773902305}
     - target: {fileID: 114000012721615700, guid: 9c1c3a312d4b27943bd6bb9bf0d313a8,
         type: 2}
       propertyPath: followRange
@@ -1629,6 +1629,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 9.300893, y: 2.8967934, z: 9.703184}
   m_Center: {x: -0.1928711, y: 0.9483967, z: -0.090330124}
+--- !u!1 &472475527 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013831059930, guid: e296317ae4392054493d13ea54e3cac3,
+    type: 2}
+  m_PrefabInternal: {fileID: 752816039}
 --- !u!1001 &484992989
 Prefab:
   m_ObjectHideFlags: 0
@@ -2729,6 +2734,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 753307207}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &773902305 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000012288506516, guid: bb00fb5fba1b6d64abfe748ff4a55f73,
+    type: 2}
+  m_PrefabInternal: {fileID: 833033849}
 --- !u!1 &792875527
 GameObject:
   m_ObjectHideFlags: 0
@@ -2870,7 +2880,7 @@ Prefab:
         type: 2}
       propertyPath: holoBlock
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 472475527}
     - target: {fileID: 1000011509829242, guid: bb00fb5fba1b6d64abfe748ff4a55f73, type: 2}
       propertyPath: m_Name
       value: FPSController
@@ -5106,7 +5116,7 @@ Prefab:
         type: 2}
       propertyPath: target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 773902305}
     - target: {fileID: 114000012721615700, guid: 9c1c3a312d4b27943bd6bb9bf0d313a8,
         type: 2}
       propertyPath: followRange
@@ -6177,7 +6187,7 @@ Prefab:
         type: 2}
       propertyPath: target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 773902305}
     - target: {fileID: 114000012721615700, guid: 9c1c3a312d4b27943bd6bb9bf0d313a8,
         type: 2}
       propertyPath: followRange
