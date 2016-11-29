@@ -1782,6 +1782,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 1
   m_Events:
+  - time: 0.6666667
+    functionName: BladeSpinning
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 2.0666666
     functionName: reenableNavMeshAgent
     data: 
