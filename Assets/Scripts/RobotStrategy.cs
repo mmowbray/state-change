@@ -13,7 +13,7 @@ namespace RobotStuff
 		protected bool _follow = false;
 		protected bool _touching = false;
 
-		protected float _followRange = 15;
+		protected float _followRange = 25.0f;
 		protected float _arriveThreshold = 7;
 		protected float _followSpeed;
 
@@ -26,7 +26,7 @@ namespace RobotStuff
 
 		public virtual void Start()
 		{
-			_followRange = 10.0f;
+			_followRange = 25.0f;
 			_arriveThreshold = 0.05f;
 			_followSpeed = 1.0f;
 		}
