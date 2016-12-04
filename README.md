@@ -6,24 +6,26 @@ State Change is a 3D first-person puzzle platform
 
 **Keyboard and Mouse Controls**
 
-1. Move 			     : A W S D Keys
-2. Look around			 : Move mouse
-3. Jump 				 : Spacebar
-4. Create Block 		 : Mouse right click
-5. Create Long block 	 : Hold mouse right click and release
-6. Delete block 		 : Aim at the block and right click
-7. Delete all blocks 	 : K key
-8. Delete previous block : J key
-9. Toogle game modes 	 : Q key
+1. Move 			  	 	     : W A S D Keys
+2. Look around			 	 	 : Move mouse
+3. Jump 					 	 : Spacebar
+4. Create Block 			 	 : Mouse left click
+5. Reset block length		 	 : Mouse right click
+6. Create Long block 	 	 	 : Hold mouse left click and release
+7. Delete block 			 	 : Aim at the block and left click
+8. Delete all blocks 		 	 : R key
+9. Delete previous block 	 	 : X key
+10. Toggle MASS gun firing mode  : Q key
+11. Toggle aim preview mode 	 : F key
 
 **PS3 Controller**
 
-1. Move 				 : Left Joystick
-2. Look around 			 : Right Joystick
-3. Jump 				 : X
-4. Create block    		 : L1
-5. Create Long Block 	 : Hold L1 and release
-6. Delete block 	 	 : Aim at the block and press L1
-7. Delete all blocks 	 : Box
-8. Delete previous block : Circle
-9. Toogle game modes 	 : Triangle
+1. Move 					   : Left Joystick
+2. Look around 				   : Right Joystick
+3. Jump 					   : X
+4. Create Block    			   : L1
+5. Create Long Block 		   : Hold L1 and release
+6. Delete block 	 		   : Aim at the block and press L1
+7. Delete all blocks       	   : Square
+8. Delete previous block 	   : Circle
+9. Toggle MASS gun firing mode : Triangle
