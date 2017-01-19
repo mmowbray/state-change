@@ -59,11 +59,11 @@ public class Robot : MonoBehaviour
                     sawNoise.Play();
                     if (safeContactOccurred)
                     {
-                        NavMeshHit hit = new NavMeshHit();
-                        NavMesh.SamplePosition(transform.position, out hit, 10, NavMesh.AllAreas);
+                        UnityEngine.AI.NavMeshHit hit = new UnityEngine.AI.NavMeshHit();
+                        UnityEngine.AI.NavMesh.SamplePosition(transform.position, out hit, 10, UnityEngine.AI.NavMesh.AllAreas);
                         transform.position = hit.position;
                     }
-                    GetComponent<NavMeshAgent>().enabled = false;
+                    GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
                     mAnimator.SetBool("isAttacking", true);
 
                 }
@@ -103,11 +103,11 @@ public class Robot : MonoBehaviour
                 transform.up = Vector3.MoveTowards(transform.up, Vector3.up, 0.1f);
                 if (transform.up == -Vector3.up)
                     transform.up += new Vector3(0.1f, -0.9f, 0.1f);
-                GetComponent<NavMeshAgent>().enabled = true;
+                GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
 
-                NavMeshHit hit = new NavMeshHit();
-                int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-                NavMesh.SamplePosition(transform.position, out hit, 10, walkableMask);
+                UnityEngine.AI.NavMeshHit hit = new UnityEngine.AI.NavMeshHit();
+                int walkableMask = 1 << UnityEngine.AI.NavMesh.GetAreaFromName("Walkable");
+                UnityEngine.AI.NavMesh.SamplePosition(transform.position, out hit, 10, walkableMask);
 
                 if (Mathf.Approximately(transform.rotation.eulerAngles.x, 0) && Mathf.Approximately(transform.rotation.eulerAngles.z, 0)/* && Mathf.Abs(transform.position.y - hit.position.y) <= 1.1f  && Mathf.Approximately(transform.position.x,hit.position.x) && Mathf.Approximately(transform.position.z, hit.position.z)*/)
                 {
@@ -119,7 +119,7 @@ public class Robot : MonoBehaviour
 
                     rb.isKinematic = true;
                     mAnimator.applyRootMotion = false;
-                    GetComponent<NavMeshAgent>().enabled = true;
+                    GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
                     isReeling = false;
                     CorrectPosture();
 
@@ -272,7 +272,7 @@ public class Robot : MonoBehaviour
             if (!isDefeated)
             {
                 isAttacking = false;
-                GetComponent<NavMeshAgent>().enabled = false;
+                GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
                 mAnimator.SetBool("isAttacking", false);
                 mAnimator.Stop();
 
@@ -307,7 +307,7 @@ public class Robot : MonoBehaviour
                         if (!isDefeated)
                         {
                             isAttacking = false;
-                            GetComponent<NavMeshAgent>().enabled = false;
+                            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
                             mAnimator.SetBool("isAttacking", false);
                             mAnimator.Stop();
 
@@ -333,8 +333,8 @@ public class Robot : MonoBehaviour
         if (col.gameObject.tag == "Block" && !isDefeated && !isReeling && safeContactOccurred)
         {
             Rigidbody rb = GetComponent<Rigidbody>();
-            NavMeshHit hit = new NavMeshHit();
-            NavMesh.SamplePosition(transform.position, out hit, 10, NavMesh.AllAreas);
+            UnityEngine.AI.NavMeshHit hit = new UnityEngine.AI.NavMeshHit();
+            UnityEngine.AI.NavMesh.SamplePosition(transform.position, out hit, 10, UnityEngine.AI.NavMesh.AllAreas);
             transform.position = hit.position;
             rb.isKinematic = true;
             rb.useGravity = false;
@@ -356,7 +356,7 @@ public class Robot : MonoBehaviour
             if (!isDefeated)
             {
                 isAttacking = false;
-                GetComponent<NavMeshAgent>().enabled = false;
+                GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
                 mAnimator.SetBool("isAttacking", false);
                 mAnimator.Stop();
 
@@ -391,7 +391,7 @@ public class Robot : MonoBehaviour
                         if (!isDefeated)
                         {
                             isAttacking = false;
-                            GetComponent<NavMeshAgent>().enabled = false;
+                            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
                             mAnimator.SetBool("isAttacking", false);
                             mAnimator.Stop();
 
@@ -411,7 +411,7 @@ public class Robot : MonoBehaviour
     }
     public void reenableNavMeshAgent()
     {
-        GetComponent<NavMeshAgent>().enabled = true;
+        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
         isAttacking = false;
     }
     /*

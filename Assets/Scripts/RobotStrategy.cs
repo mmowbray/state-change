@@ -7,7 +7,7 @@ namespace RobotStuff
 	{
 		protected GameObject _myGameObject;
 		protected Transform _target;
-		protected NavMeshAgent _myNavMeshAgent;
+		protected UnityEngine.AI.NavMeshAgent _myNavMeshAgent;
 		protected float _angularSpeed = 180.0f;
 		protected float _maxRayDistance = 500.0f;
 		protected bool _follow = false;
@@ -21,7 +21,7 @@ namespace RobotStuff
 		{
 			_myGameObject = gameObject;
 			_target = target;
-			_myNavMeshAgent = _myGameObject.GetComponent<NavMeshAgent>();
+			_myNavMeshAgent = _myGameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
 		}
 
 		public RobotStrategy(GameObject gameObject, Transform target, float followRange, float arriveThreshold, float followSpeed) : this(gameObject, target)

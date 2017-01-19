@@ -8,15 +8,17 @@ public class EndCredits : MonoBehaviour {
 	void Start () {
 		StartCoroutine(end());
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+		if (transform.position.y <= 1950.0f) {
+			transform.Translate(Vector3.up * Time.deltaTime * 100.0f);
+		}
 	}
 
 	public IEnumerator end()
 	{
-		yield return new WaitForSeconds(10.0f);
+		yield return new WaitForSeconds(25.0f);
 		SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
 	}
 }
